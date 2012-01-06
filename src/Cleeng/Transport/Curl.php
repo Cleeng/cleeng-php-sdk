@@ -66,7 +66,6 @@ class Cleeng_Transport_Curl extends Cleeng_AbstractTransport
         $buffer = curl_exec($ch);
         $this->apiResponse = $buffer;
         $this->apiResponseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
         if ($this->apiResponseCode !== 200) {
             throw new Exception('Invalid HTTP response code (' . $this->apiResponseCode . ').');
         }
@@ -74,7 +73,7 @@ class Cleeng_Transport_Curl extends Cleeng_AbstractTransport
         return $buffer;
     }
 
-    public function processPendingRequests()
+    public function commit()
     {
         $requestList = array();
         $idLookup = array();

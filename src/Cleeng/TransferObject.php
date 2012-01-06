@@ -17,7 +17,7 @@ class Cleeng_TransferObject
      * 
      * @var array
      */
-    protected $_data = array();
+    protected $data = array();
 
 
     public function __construct($transport)
@@ -25,14 +25,29 @@ class Cleeng_TransferObject
         $this->_transport = $transport;
     }
 
+    public function hasErrors()
+    {
+        if ($this->_pending) {
+            $this->_transport->commit();
+        }
+        return (bool)$this->_error;
+    }
+
+    public function getError()
+    {
+        if ($this->_pending) {
+            $this->_transport->commit();
+        }
+        return $this->_error;
+    }
 
     public function __get($name)
     {
         if ($this->_pending) {
-            $this->_transport->processPendingRequests();
+            $this->_transport->commit();
         }
-        if (isset($this->$name)) {
-            return $this->$name;
+        if (isset($this->data[$name])) {
+            return $this->data[$name];
         }
         return null;
     }
@@ -40,25 +55,25 @@ class Cleeng_TransferObject
     public function __set($name, $value)
     {
         if ($this->_pending) {
-            $this->_transport->processPendingRequests();
+            $this->_transport->commit();
         }
-        $this->$name = $value;
+        $this->data[$name] = $value;
         return null;
     }
 
     public function setData($data)
     {
         foreach  ($data as $key => $val) {
-            $this->$key = $val;
+            $this->data[$key] = $val;
         }
     }
 
     public function toArray()
     {
         if ($this->_pending) {
-            $this->_transport->processPendingRequests();
+            $this->_transport->commit();
         }
-        return $this->_data;
+        return $this->data;
     }
 
 }

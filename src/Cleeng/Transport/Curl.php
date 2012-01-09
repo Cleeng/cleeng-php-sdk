@@ -14,7 +14,7 @@ class Cleeng_Transport_Curl extends Cleeng_AbstractTransport
      *
      * @var string
      */
-    protected $platformUrl;
+    protected $platformUrl = 'cleeng.com';
 
     /**
      *

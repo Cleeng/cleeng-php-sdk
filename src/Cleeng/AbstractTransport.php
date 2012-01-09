@@ -3,14 +3,8 @@
 abstract class Cleeng_AbstractTransport
 {
     /**
-     * Platform URL: set it to sandbox.cleeng.com for testing
-     * with fake payments.
+     * Perform API call (or add it to queue if transport supports batch calls)
      *
-     * @var string
-     */
-    protected $platformUrl = 'cleeng.com';
-
-    /**
      * @abstract
      * @param string $endpoint
      * @param string $method
@@ -18,5 +12,11 @@ abstract class Cleeng_AbstractTransport
      * @return void
      */
     abstract public function call($endpoint, $method, $arguments);
+
+    /**
+     * Perform API call (if transport supports batch calls)
+     * @abstract
+     */
+    abstract public function commit();
 
 }

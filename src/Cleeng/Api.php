@@ -35,11 +35,11 @@ class Cleeng_Api
     protected $cookieName = 'CleengClientAccessToken';
 
     /**
-     * If set to true, API client wont make any requests to server automatically
+     * If set to false, API client wont make any requests to server automatically
      *
      * @var bool
      */
-    protected $autocommitPublisherApis = false;
+    protected $autocommitPublisherApis = true;
 
     /**
      * Set if any publisher APIs are queued
@@ -47,6 +47,13 @@ class Cleeng_Api
      * @var bool
      */
     protected $publisherApiCallPending = false;
+
+    /**
+     * "Default" application ID. Usually there's no need to change that.
+     *
+     * @var string
+     */
+    protected $appId = '35e97a6231236gb456heg6bd7a6bdsf7';
 
     /**
      * Class constructor
@@ -149,6 +156,8 @@ class Cleeng_Api
                   'itemOfferData' => $itemOfferData));
         if ($this->autocommitPublisherApis) {
             $this->commit();
+        } else {
+            $this->publisherApiCallPending = true;
         }
         return $itemOffer;
     }
@@ -162,15 +171,36 @@ class Cleeng_Api
      */
     public function updateItemOffer($itemOfferId, $itemOfferData)
     {
-        $this->publisherApiCallPending = true;
         $itemOffer = $this->getTransport()->call('publisher', 'updateItemOffer',
             array('token' => $this->publisherToken,
                   'itemOfferId' => $itemOfferId,
                   'itemOfferData' => $itemOfferData));
         if ($this->autocommitPublisherApis) {
             $this->commit();
+        } else {
+            $this->publisherApiCallPending = true;
         }
         return $itemOffer;
+    }
+
+    /**
+     * Cleeng Publisher API: removeItemOffer
+     *
+     * @param int $itemOfferId
+     * @return Cleeng_TransferObject
+     */
+    public function removeItemOffer($itemOfferId)
+    {
+        $ret = $this->getTransport()->call(
+            'publisher', 'removeItemOffer',
+            array('token' => $this->getPublisherToken(), 'itemOfferId' => $itemOfferId)
+        );
+        if ($this->autocommitPublisherApis) {
+            $this->commit();
+        } else {
+            $this->publisherApiCallPending = true;
+        }
+        return $ret;
     }
 
     /**

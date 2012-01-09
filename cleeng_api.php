@@ -7,7 +7,9 @@ foreach (array(
 	    'Transport/Curl.php',
 	    'TransferObject.php',
 	    'Api.php'
-		) as $file) {
+		) as $_cleeng_class_file) {
 
-    require_once dirname(__FILE__) . '/src/Cleeng/' . $file;
+    require_once dirname(__FILE__) . '/src/Cleeng/' . $_cleeng_class_file;
 }
+
+unset($_cleeng_class_file);

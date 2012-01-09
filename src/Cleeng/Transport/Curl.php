@@ -2,20 +2,53 @@
 
 class Cleeng_Transport_Curl extends Cleeng_AbstractTransport
 {
+    /**
+     * Counter that keeps track of "id" property in JSON-RPC requests
+     *
+     * @var int
+     */
     protected $rpcId = 1;
 
     /**
+     * URL to Cleeng platform: cleeng.com or sandbox.cleeng.com
+     *
      * @var string
      */
     protected $platformUrl;
 
+    /**
+     *
+     * @var Cleeng_TransferObject[]
+     */
     protected $callStack = array();
 
+    /**
+     * Response from last API call
+     *
+     * @var string
+     */
     protected $apiResponse;
 
+    /**
+     * HTTP response code from last API call
+     *
+     * @var int
+     */
     protected $apiResponseCode;
 
-    protected $apiRequestData;
+    /**
+     * Last request sent to Cleeng servers
+     *
+     * @var string
+     */
+    protected $apiRequest;
+
+    /**
+     * CURL handle
+     *
+     * @var resource
+     */
+    protected $curl;
 
     /**
      * @param $platformUrl
@@ -26,15 +59,15 @@ class Cleeng_Transport_Curl extends Cleeng_AbstractTransport
     }
 
     /**
+     *
+     *
      * @param $endpoint
      * @param string $method
      * @param array $params
-     * @return void
+     * @return Cleeng_TransferObject
      */
     public function call($endpoint, $method, $params)
     {
-        // construct API URL
-//        $url = 'https://api.' . $this->platformUrl . '/2.0/json/' . $endpoint;
         $json = array(
             'jsonrpc' => '2.0',
             'method' => $method,
@@ -48,11 +81,23 @@ class Cleeng_Transport_Curl extends Cleeng_AbstractTransport
         return $transferObject;
     }
 
+    /**
+     * Performs actual request to Cleeng servers using curl
+     *
+     * @param $url
+     * @param $postData
+     * @return string
+     * @throws Exception
+     */
     protected function _curl($url, $postData)
     {
-        $this->apiRequestData = $postData;
+        $this->apiRequest = $postData;
 
-        $ch = curl_init($url);
+        if (null == $this->curl) {
+            $this->curl = curl_init($url);
+        }
+
+        $ch = $this->curl;
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
@@ -73,6 +118,11 @@ class Cleeng_Transport_Curl extends Cleeng_AbstractTransport
         return $buffer;
     }
 
+    /**
+     * Packs pending API requests into JSON array and sends them to API endpoint.
+     *
+     * @throws Exception
+     */
     public function commit()
     {
         $requestList = array();
@@ -101,19 +151,37 @@ class Cleeng_Transport_Curl extends Cleeng_AbstractTransport
         }
     }
 
+    /**
+     * Debug/test method.
+     * Returns last reposnse string received from Cleeng servers.
+     *
+     * @return string
+     */
     public function getApiResponse()
     {
         return $this->apiResponse;
     }
 
+    /**
+     * Debug/test method.
+     * Returns last HTTP response code received from Cleeng servers.
+     *
+     * @return int
+     */
     public function getApiResponseCode()
     {
         return $this->apiResponseCode;
     }
 
-    public function getApiRequestData()
+    /**
+     * Debug/test method.
+     * Returns data sent to Cleeng servers with last request.
+     *
+     * @return string
+     */
+    public function getApiRequest()
     {
-        return $this->apiRequestData;
+        return $this->apiRequest;
     }
 
 

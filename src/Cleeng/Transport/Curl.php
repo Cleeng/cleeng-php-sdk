@@ -1,6 +1,6 @@
 <?php
 
-class Cleeng_Transport_Curl extends Cleeng_AbstractTransport
+class Cleeng_Transport_Curl extends Cleeng_Transport_Abstract
 {
     /**
      * Counter that keeps track of "id" property in JSON-RPC requests
@@ -14,7 +14,7 @@ class Cleeng_Transport_Curl extends Cleeng_AbstractTransport
      *
      * @var string
      */
-    protected $platformUrl = 'cleeng.com';
+    protected $apiEndpoint = 'https://api.cleeng.com/2.0/json-rpc';
 
     /**
      *
@@ -51,22 +51,22 @@ class Cleeng_Transport_Curl extends Cleeng_AbstractTransport
     protected $curl;
 
     /**
-     * @param $platformUrl
+     * @param $apiEndpoint
      */
-    public function __construct($platformUrl)
+    public function __construct($apiEndpoint = null)
     {
-        $this->platformUrl = $platformUrl;
+        if (null !== $apiEndpoint) {
+            $this->apiEndpoint = $apiEndpoint;
+        }
     }
 
     /**
      *
-     *
-     * @param $endpoint
      * @param string $method
      * @param array $params
      * @return Cleeng_TransferObject
      */
-    public function call($endpoint, $method, $params)
+    public function call($method, $params)
     {
         $json = array(
             'jsonrpc' => '2.0',
@@ -75,7 +75,6 @@ class Cleeng_Transport_Curl extends Cleeng_AbstractTransport
             'id' => $this->rpcId++
         );
         $transferObject = new Cleeng_TransferObject($this);
-        $transferObject->_endpoint = $endpoint;
         $transferObject->_requestData = $json;
         $this->callStack[] = $transferObject;
         return $transferObject;
@@ -112,7 +111,7 @@ class Cleeng_Transport_Curl extends Cleeng_AbstractTransport
         $this->apiResponse = $buffer;
         $this->apiResponseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         if ($this->apiResponseCode !== 200) {
-            throw new Exception('Invalid HTTP response code (' . $this->apiResponseCode . ').');
+            throw new Cleeng_RuntimeException('Invalid HTTP response code (' . $this->apiResponseCode . ').');
         }
 
         return $buffer;
@@ -121,34 +120,76 @@ class Cleeng_Transport_Curl extends Cleeng_AbstractTransport
     /**
      * Packs pending API requests into JSON array and sends them to API endpoint.
      *
-     * @throws Exception
+     * @throws Cleeng_RuntimeException
      */
     public function commit()
     {
-        $requestList = array();
-        $idLookup = array();
-        foreach ($this->callStack as $transferObject) {
-            $idLookup[$transferObject->_requestData['id']] = $transferObject;
-            $requestList[] = $transferObject->_requestData;
+        if (!count($this->callStack)) {
+            return;
         }
 
-        $url = 'https://api.' . $this->platformUrl . '/2.0/json-rpc';
-        $json = $this->_curl($url, json_encode($requestList));
+        while (count($this->callStack)) {
 
-        if (!$json || !strlen($json) || !$result = json_decode($json)) {
-            throw new Exception('Server response is not valid JSON string.');
-        }
+            $requestList = array();
+            $idLookup = array();
 
-        foreach ($result as $response) {
-            $transferObject = $idLookup[$response->id];
-            $transferObject->_pending = false;
-            if ($response->error) {
-                $transferObject->_error = $response->error;
-            } else {
-                $transferObject->_error = false;
-                $transferObject->setData($response->result);
+            $numberOfCalls = 0;
+            foreach ($this->callStack as $key => $transferObject) {
+                $numberOfCalls++;
+                $idLookup[$transferObject->_requestData['id']] = $transferObject;
+                $requestList[] = $transferObject->_requestData;
+                unset($this->callStack[$key]);
+                if ($numberOfCalls > 25) {
+                    break;
+                }
+            }
+
+            $url = $this->apiEndpoint;
+            $json = $this->_curl($url, json_encode($requestList));
+
+            if (!$json || !strlen($json) || !$result = json_decode($json, true)) {
+                throw new Cleeng_RuntimeException('Server response is not valid JSON string.');
+            }
+
+            if ($json[0] == '{') {     // just in case we received single JSON object instead of an array
+                $result = array($result);
+            }
+
+            $errorObject = null;
+
+            foreach ($result as $response) {
+
+                if (!isset($response['id']) || !isset($idLookup[$response['id']])) {
+                    throw new Cleeng_RuntimeException("Unable to process server response.");
+                }
+
+                $transferObject = $idLookup[$response['id']];
+                $transferObject->_pending = false;
+                if ($response['error']) {
+
+                    if (!$errorObject) {
+                        $errorObject = $transferObject;
+                    }
+
+                    $transferObject->_error = $response['error'];
+                } else {
+                    $transferObject->_error = false;
+                    $transferObject->setData($response['result']);
+                }
+            }
+
+            if ($errorObject) {
+                $e = new Cleeng_RuntimeException("Cleeng API error: " . $errorObject->_error['message'], $errorObject->_error['code']);
+                if (isset($errorObject->_error['data']) && isset($errorObject->_error['data']['details'])) {
+                    $e->details = $errorObject->_error['data']['details'];
+                } else {
+                    $e->details = array();
+                }
+                throw $e;
             }
         }
+
+        $this->callStack = array();
     }
 
     /**

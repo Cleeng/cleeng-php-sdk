@@ -63,6 +63,9 @@ class Cleeng_TransferObject
 
     public function setData($data)
     {
+        if (!is_array($data)) {
+            throw new Cleeng_InvalidArgumentException("Data received from API is in invalid format. Expected array, got " . gettype($data) . ".");
+        }
         foreach  ($data as $key => $val) {
             $this->data[$key] = $val;
         }

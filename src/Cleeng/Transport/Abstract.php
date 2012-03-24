@@ -1,17 +1,16 @@
 <?php
 
-abstract class Cleeng_AbstractTransport
+abstract class Cleeng_Transport_Abstract
 {
     /**
      * Perform API call (or add it to queue if transport supports batch calls)
      *
      * @abstract
-     * @param string $endpoint
      * @param string $method
      * @param array $arguments
      * @return void
      */
-    abstract public function call($endpoint, $method, $arguments);
+    abstract public function call($method, $arguments);
 
     /**
      * Perform API call (if transport supports batch calls)

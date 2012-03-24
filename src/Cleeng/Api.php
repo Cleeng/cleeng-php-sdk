@@ -39,14 +39,7 @@ class Cleeng_Api
      *
      * @var bool
      */
-    protected $autocommitPublisherApis = true;
-
-    /**
-     * Set if any publisher APIs are queued
-     *
-     * @var bool
-     */
-    protected $publisherApiCallPending = false;
+    protected $autocommit = true;
 
     /**
      * "Default" application ID. Usually there's no need to change that.
@@ -71,17 +64,6 @@ class Cleeng_Api
     }
 
     /**
-     * Commit API request if any Publisher API calls are pending.
-     */
-    public function processPendingPublisherApis()
-    {
-        if ($this->publisherApiCallPending) {
-            $this->getTransport()->commit();
-        }
-        $this->publisherApiCallPending = false;
-    }
-
-    /**
      * Executes queued API calls (if any are waiting)
      */
     public function commit()
@@ -89,17 +71,24 @@ class Cleeng_Api
         $this->getTransport()->commit();
     }
 
+    protected function call($method, $params)
+    {
+        $ret = $this->getTransport()->call($method, $params);
+        if ($this->autocommit) {
+            $this->getTransport()->commit();
+        }
+        return $ret;
+    }
+
     /**
      * Cleeng Query API: getItemOffer
      *
-     * @param int $itemOfferId
+     * @param string $itemOfferId
      * @return Cleeng_TransferObject
      */
     public function getItemOffer($itemOfferId)
     {
-        $this->processPendingPublisherApis();
-        return $this->getTransport()->call('customer', 'getItemOffer',
-            array('itemOfferId' => $itemOfferId));
+        return $this->call('getItemOffer', array('itemOfferId' => $itemOfferId));
     }
 
     /**
@@ -109,9 +98,7 @@ class Cleeng_Api
      */
     public function getUserInfo()
     {
-        $this->processPendingPublisherApis();
-        return $this->getTransport()->call('customer', 'getUserInfo',
-            array('token' => $this->getCustomerToken()));
+        return $this->call('getUserInfo', array('token' => $this->getCustomerToken()));
     }
 
     /**
@@ -122,9 +109,7 @@ class Cleeng_Api
      */
     public function getAccessStatus($itemOfferId)
     {
-        $this->processPendingPublisherApis();
-        return $this->getTransport()->call('customer', 'getAccessStatus',
-            array('token' => $this->getCustomerToken(), 'itemOfferId' => $itemOfferId));
+        return $this->call('getAccessStatus', array('token' => $this->getCustomerToken(), 'itemOfferId' => $itemOfferId));
     }
 
     /**
@@ -137,7 +122,6 @@ class Cleeng_Api
      */
     public function isAccessGranted($itemOfferId)
     {
-        $this->processPendingPublisherApis();
         $accessStatus = $this->getAccessStatus($itemOfferId);
         return $accessStatus->accessGranted;
     }
@@ -150,15 +134,9 @@ class Cleeng_Api
      */
     public function createItemOffer($itemOfferData)
     {
-        $this->publisherApiCallPending = true;
-        $itemOffer = $this->getTransport()->call('publisher', 'createItemOffer',
+        $itemOffer = $this->call('createItemOffer',
             array('token' => $this->publisherToken,
                   'itemOfferData' => $itemOfferData));
-        if ($this->autocommitPublisherApis) {
-            $this->commit();
-        } else {
-            $this->publisherApiCallPending = true;
-        }
         return $itemOffer;
     }
 
@@ -171,15 +149,10 @@ class Cleeng_Api
      */
     public function updateItemOffer($itemOfferId, $itemOfferData)
     {
-        $itemOffer = $this->getTransport()->call('publisher', 'updateItemOffer',
+        $itemOffer = $this->call('updateItemOffer',
             array('token' => $this->publisherToken,
                   'itemOfferId' => $itemOfferId,
                   'itemOfferData' => $itemOfferData));
-        if ($this->autocommitPublisherApis) {
-            $this->commit();
-        } else {
-            $this->publisherApiCallPending = true;
-        }
         return $itemOffer;
     }
 
@@ -191,15 +164,10 @@ class Cleeng_Api
      */
     public function removeItemOffer($itemOfferId)
     {
-        $ret = $this->getTransport()->call(
-            'publisher', 'removeItemOffer',
+        $ret = $this->call(
+            'removeItemOffer',
             array('token' => $this->getPublisherToken(), 'itemOfferId' => $itemOfferId)
         );
-        if ($this->autocommitPublisherApis) {
-            $this->commit();
-        } else {
-            $this->publisherApiCallPending = true;
-        }
         return $ret;
     }
 
@@ -211,7 +179,7 @@ class Cleeng_Api
     public function getTransport()
     {
         if (null === $this->transport) {
-            $this->transport = new Cleeng_Transport_Curl($this->platformUrl);
+            $this->transport = new Cleeng_Transport_Curl('https://api.' . $this->platformUrl . '/2.0/json-rpc');
         }
         return $this->transport;
     }
@@ -293,9 +261,9 @@ class Cleeng_Api
     /**
      * @param bool $flag
      */
-    public function setAutocommitPublisherApis($flag)
+    public function setAutocommit($flag)
     {
-        $this->autocommitPublisherApis = $flag;
+        $this->autocommit = $flag;
     }
 
 }

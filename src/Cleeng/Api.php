@@ -172,6 +172,21 @@ class Cleeng_Api
     }
 
     /**
+     * Cleeng API: getPublisherSubscriptions
+     *
+     * @param int $publisherId
+     * @return Cleeng_TransferObject
+     */
+    public function getPublisherSubscriptions($publisherId)
+    {
+        $ret = $this->call(
+            'getPublisherSubscriptions',
+            array('publisherId' => $publisherId)
+        );
+        return $ret;
+    }
+
+    /**
      * Return transport object or create new (curl-based)
      *
      * @return Cleeng_AbstractTransport

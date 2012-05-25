@@ -113,6 +113,23 @@ class Cleeng_Api
     }
 
     /**
+     * Tell Cleeng Platform if user liked given item or not
+     *
+     * @param $itemOfferId
+     * @param $liked
+     */
+    public function rateItemOffer($itemOfferId, $liked)
+    {
+        return $this->call('rateItemOffer',
+            array(
+                'token' => $this->getCustomerToken(),
+                'itemOfferId' => $itemOfferId,
+                'liked' => (bool)$liked
+            )
+        );
+    }
+
+    /**
      * Cleeng Query API: isAccessGranted
      *
      * Wrapper for getAccessStatus. Return true

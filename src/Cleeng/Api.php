@@ -203,6 +203,17 @@ class Cleeng_Api
         return $ret;
     }
 
+    public function getPublisherItemOffers($publisherId, $page = 1, $itemsPerPage = 20)
+    {
+        return $this->call('getPublisherItemOffers', array(
+                'token' => $this->publisherToken,
+                'publisherId' => $publisherId,
+                'page' => $page,
+                'itemsPerPage' => $itemsPerPage
+            )
+        );
+    }
+
     /**
      * Return transport object or create new (curl-based)
      *

@@ -203,13 +203,22 @@ class Cleeng_Api
         return $ret;
     }
 
-    public function getPublisherItemOffers($criteria, $page = 1, $itemsPerPage = 20)
+    public function getPublisherItemOffers($criteria = array(), $page = 1, $itemsPerPage = 20)
     {
         return $this->call('getPublisherItemOffers', array(
                 'token' => $this->publisherToken,
                 'criteria' => $criteria,
                 'page' => $page,
                 'itemsPerPage' => $itemsPerPage
+            )
+        );
+    }
+
+    public function getPublisherItemOfferCount($criteria = array())
+    {
+        return $this->call('getPublisherItemOfferCount', array(
+                'token' => $this->publisherToken,
+                'criteria' => $criteria
             )
         );
     }

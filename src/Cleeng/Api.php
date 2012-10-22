@@ -4,29 +4,49 @@ class Cleeng_Api
 {
 
     /**
+     * API endpoint for Cleeng Sandbox
+     */
+    const SANDBOX_ENDPOINT  = 'https://sandbox.cleeng.com/api/2.1/json-rpc';
+
+    /**
+     * API endpoint
+     *
      * @var string
      */
-    protected $platformUrl = 'cleeng.com';
+    protected $endpoint = 'https://api.cleeng.com/2.1/json-rpc';
 
     /**
      * Transport class used to communicate with Cleeng servers
      *
-     * @var Cleeng_AbstractTransport
+     * @var Cleeng_Transport_AbstractTransport
      */
     protected $transport;
+
+    /**
+     * List of stacked API requests
+     * @var array
+     */
+    protected $pendingCalls = array();
+
+    /**
+     * Batch mode - determines if requests should be automatically stacked and sent in batch request
+     *
+     * @var int
+     */
+    protected $batchMode = false;
 
     /**
      * Publisher's token - must be set manually with setPublisherToken()
      *
      * @var string
      */
-    protected $publisherToken = '';
+    protected $publisherToken;
 
     /**
      * Customer's access token - should be read automatically from cookie
      * @var string
      */
-    protected $customerToken = '';
+    protected $customerToken;
 
     /**
      * Name of cookie used to store customer's access token
@@ -35,18 +55,144 @@ class Cleeng_Api
     protected $cookieName = 'CleengClientAccessToken';
 
     /**
-     * If set to false, API client wont make any requests to server automatically
-     *
-     * @var bool
-     */
-    protected $autocommit = true;
-
-    /**
-     * "Default" application ID. Usually there's no need to change that.
+     * "Default" application ID, indicating general, "Cleeng Open" based client.
+     * Usually there's no need to change that.
      *
      * @var string
      */
     protected $appId = '35e97a6231236gb456heg6bd7a6bdsf7';
+
+    /**
+     * Last response from Cleeng server
+     *
+     * @var string
+     */
+    protected $rawResponse;
+
+    /**
+     * Send request to Cleeng API or put it on a list (batch mode)
+     *
+     * @param string $method
+     * @param array $params
+     * @param Cleeng_Entity_Base $objectToPopuplate
+     * @return Cleeng_Entity_Base
+     */
+    public function api($method, $params, $objectToPopuplate)
+    {
+        $id = count($this->pendingCalls)+1;
+        $payload = json_encode(
+            array(
+                'jsonrpc' => '2.0',
+                'id' => $id,
+                'method' => $method,
+                'params' => $params
+            )
+        );
+
+        if (null === $objectToPopuplate) {
+            $objectToPopuplate = new Cleeng_Entity_Base();
+        }
+
+        $this->pendingCalls[$id] = array(
+            'entity' => $objectToPopuplate,
+            'payload' => $payload
+        );
+
+        if (!$this->batchMode) {
+            // batch requests disabled, send request
+            $this->commit();
+        }
+
+        return $objectToPopuplate;
+    }
+
+    /**
+     * Process pending API requests in a batch call
+     */
+    public function commit()
+    {
+        $requestData = array();
+        foreach ($this->pendingCalls as $req) {
+            $payload = $req['payload'];
+            $requestData[] = $payload;
+        }
+
+        $encodedRequest = '[' . implode(',', $requestData) . ']';
+        $raw = $this->getTransport()->call($this->getEndpoint(), $encodedRequest);
+        $this->rawResponse = $raw;
+        $decodedResponse = json_decode($raw, true);
+
+        foreach ($decodedResponse as $response) {
+            if (isset($this->pendingCalls[$response['id']])) {
+                $transferObject = $this->pendingCalls[$response['id']]['entity'];
+                $transferObject->pending = false;
+
+                if ($response['error']) {
+                    throw new Cleeng_Exception_ApiErrorException($response['error']['message']);
+                } else {
+                    $transferObject->populate($response['result']);
+                }
+            }
+        }
+    }
+
+    /**
+     * @param string $endpoint
+     * @return Cleeng_Api provides fluent interface
+     */
+    public function setEndpoint($endpoint)
+    {
+        $this->endpoint = $endpoint;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEndpoint()
+    {
+        return $this->endpoint;
+    }
+
+    /**
+     * Helper function for setting up test environment
+     */
+    public function enableSandbox()
+    {
+        $this->setEndpoint(self::SANDBOX_ENDPOINT);
+    }
+
+    /**
+     * @param \Cleeng_Transport_AbstractTransport $transport
+     * @return Cleeng_Api provides fluent interface
+     */
+    public function setTransport($transport)
+    {
+        $this->transport = $transport;
+        return $this;
+    }
+
+
+    /**
+     * Return transport object or create new (curl-based)
+     *
+     * @return Cleeng_Transport_AbstractTransport
+     */
+    public function getTransport()
+    {
+        if (null === $this->transport) {
+            $this->transport = new Cleeng_Transport_Curl();
+        }
+        return $this->transport;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRawResponse()
+    {
+        return $this->rawResponse;
+    }
 
     /**
      * Class constructor
@@ -61,179 +207,6 @@ class Cleeng_Api
                 $this->$methodName($value);
             }
         }
-    }
-
-    /**
-     * Executes queued API calls (if any are waiting)
-     */
-    public function commit()
-    {
-        $this->getTransport()->commit();
-    }
-
-    protected function call($method, $params)
-    {
-        $ret = $this->getTransport()->call($method, $params);
-        if ($this->autocommit) {
-            $this->getTransport()->commit();
-        }
-        return $ret;
-    }
-
-    /**
-     * Cleeng Query API: getItemOffer
-     *
-     * @param string $itemOfferId
-     * @return Cleeng_TransferObject
-     */
-    public function getItemOffer($itemOfferId)
-    {
-        return $this->call('getItemOffer', array('itemOfferId' => $itemOfferId));
-    }
-
-    /**
-     * Cleeng Query API: getUserInfo
-     *
-     * @return Cleeng_TransferObject
-     */
-    public function getUserInfo()
-    {
-        return $this->call('getUserInfo', array('token' => $this->getCustomerToken()));
-    }
-
-    /**
-     * Cleeng Query API: getAccessStatus
-     *
-     * @param int $itemOfferId
-     * @return Cleeng_TransferObject
-     */
-    public function getAccessStatus($itemOfferId)
-    {
-        return $this->call('getAccessStatus', array('token' => $this->getCustomerToken(), 'itemOfferId' => $itemOfferId));
-    }
-
-    /**
-     * Tell Cleeng Platform if user liked given item or not
-     *
-     * @param $itemOfferId
-     * @param $liked
-     */
-    public function rateItemOffer($itemOfferId, $liked)
-    {
-        return $this->call('rateItemOffer',
-            array(
-                'token' => $this->getCustomerToken(),
-                'itemOfferId' => $itemOfferId,
-                'liked' => (bool)$liked
-            )
-        );
-    }
-
-    /**
-     * Cleeng Query API: isAccessGranted
-     *
-     * Wrapper for getAccessStatus. Return true
-     *
-     * @param int $itemOfferId
-     * @return Cleeng_TransferObject
-     */
-    public function isAccessGranted($itemOfferId)
-    {
-        $accessStatus = $this->getAccessStatus($itemOfferId);
-        return $accessStatus->accessGranted;
-    }
-
-    /**
-     * Cleeng Publisher API: createItemOffer
-     *
-     * @param array $itemOfferData
-     * @return Cleeng_TransferObject
-     */
-    public function createItemOffer($itemOfferData)
-    {
-        $itemOffer = $this->call('createItemOffer',
-            array('token' => $this->publisherToken,
-                  'itemOfferData' => $itemOfferData));
-        return $itemOffer;
-    }
-
-    /**
-     * Cleeng Publisher API: updateItemOffer
-     *
-     * @param array $itemOfferData
-     * @param int $itemOfferId
-     * @return Cleeng_TransferObject
-     */
-    public function updateItemOffer($itemOfferId, $itemOfferData)
-    {
-        $itemOffer = $this->call('updateItemOffer',
-            array('token' => $this->publisherToken,
-                  'itemOfferId' => $itemOfferId,
-                  'itemOfferData' => $itemOfferData));
-        return $itemOffer;
-    }
-
-    /**
-     * Cleeng Publisher API: removeItemOffer
-     *
-     * @param int $itemOfferId
-     * @return Cleeng_TransferObject
-     */
-    public function removeItemOffer($itemOfferId)
-    {
-        $ret = $this->call(
-            'removeItemOffer',
-            array('token' => $this->getPublisherToken(), 'itemOfferId' => $itemOfferId)
-        );
-        return $ret;
-    }
-
-    /**
-     * Cleeng API: getPublisherSubscriptions
-     *
-     * @param int $publisherId
-     * @return Cleeng_TransferObject
-     */
-    public function getPublisherSubscriptions($publisherId)
-    {
-        $ret = $this->call(
-            'getPublisherSubscriptions',
-            array('publisherId' => $publisherId)
-        );
-        return $ret;
-    }
-
-    public function getPublisherItemOffers($criteria = array(), $page = 1, $itemsPerPage = 20)
-    {
-        return $this->call('getPublisherItemOffers', array(
-                'token' => $this->publisherToken,
-                'criteria' => $criteria,
-                'page' => $page,
-                'itemsPerPage' => $itemsPerPage
-            )
-        );
-    }
-
-    public function getPublisherItemOfferCount($criteria = array())
-    {
-        return $this->call('getPublisherItemOfferCount', array(
-                'token' => $this->publisherToken,
-                'criteria' => $criteria
-            )
-        );
-    }
-
-    /**
-     * Return transport object or create new (curl-based)
-     *
-     * @return Cleeng_AbstractTransport
-     */
-    public function getTransport()
-    {
-        if (null === $this->transport) {
-            $this->transport = new Cleeng_Transport_Curl('https://api.' . $this->platformUrl . '/2.0/json-rpc');
-        }
-        return $this->transport;
     }
 
     /**
@@ -287,35 +260,25 @@ class Cleeng_Api
     }
 
     /**
-     * Sets URL to Cleeng platform.
+     * Cleeng Query API: getSingleOffer
      *
-     * Use sandbox.cleeng.com for testing, and cleeng.com for production
-     *
-     * @param string $platformUrl
-     * @return Cleeng_Client provides fluent interface
+     * @param string $offerId
+     * @return Cleeng_Entity_SingleOffer
      */
-    public function setPlatformUrl($platformUrl)
+    public function getSingleOffer($offerId)
     {
-        $this->platformUrl = $platformUrl;
-        return $this;
+        $offer = new Cleeng_Entity_SingleOffer();
+        return $this->api('getSingleOffer', array('offerId' => $offerId), $offer);
     }
 
     /**
-     * Returns platform URL
+     * Cleeng Customer API: getCustomerInfo()
      *
-     * @return string
      */
-    public function getPlatformUrl()
+    public function getCustomerInfo()
     {
-        return $this->platformUrl;
-    }
-
-    /**
-     * @param bool $flag
-     */
-    public function setAutocommit($flag)
-    {
-        $this->autocommit = $flag;
+        $userInfo = new Cleeng_Entity_CustomerInfo();
+        return $this->api('getCustomerInfo', array('customerToken' => $this->getCustomerToken()), $userInfo);
     }
 
 }

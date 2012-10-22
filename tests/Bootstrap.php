@@ -1,4 +1,4 @@
 <?php
 
 // include Cleeng classes
-require __DIR__ . '/../cleeng_api.php';
+require __DIR__ . '/../../../../vendor/autoload.php';

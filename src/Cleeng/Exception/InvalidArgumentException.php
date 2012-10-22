@@ -1,0 +1,5 @@
+<?php
+
+class Cleeng_Exception_InvalidArgumentException extends InvalidArgumentException implements Cleeng_Exception_ExceptionInterface
+{
+}

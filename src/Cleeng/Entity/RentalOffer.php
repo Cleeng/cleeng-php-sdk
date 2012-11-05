@@ -1,6 +1,6 @@
 <?php
 
-class Cleeng_Entity_SingleOffer extends Cleeng_Entity_Base
+class Cleeng_Entity_RentalOffer extends Cleeng_Entity_Base
 {
 
     protected $id;
@@ -10,6 +10,8 @@ class Cleeng_Entity_SingleOffer extends Cleeng_Entity_Base
     protected $price;
 
     protected $title;
+
+    protected $period;
 
     protected $currency;
 
@@ -34,4 +36,5 @@ class Cleeng_Entity_SingleOffer extends Cleeng_Entity_Base
     protected $shortUrl;
 
     protected $active;
+
 }

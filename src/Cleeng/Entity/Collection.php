@@ -7,13 +7,13 @@ class Cleeng_Entity_Collection extends Cleeng_Entity_Base implements IteratorAgg
 
     protected $items = array();
 
-    public function __construct($entityType)
+    public function __construct($entityType = 'Cleeng_Entity_Base')
     {
         parent::__construct();
         $this->entityType = $entityType;
     }
 
-    public function popuplate($data)
+    public function populate($data)
     {
         $this->items = array();
         foreach ($data as $item) {

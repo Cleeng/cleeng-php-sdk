@@ -134,6 +134,7 @@ class Cleeng_Api
                 }
             }
         }
+        $this->pendingCalls = array();
     }
 
     /**
@@ -272,6 +273,18 @@ class Cleeng_Api
     }
 
     /**
+     * Cleeng Query API: getRentalOffer
+     *
+     * @param string $offerId
+     * @return Cleeng_Entity_RentalOffer
+     */
+    public function getRentalOffer($offerId)
+    {
+        $offer = new Cleeng_Entity_RentalOffer();
+        return $this->api('getRentalOffer', array('offerId' => $offerId), $offer);
+    }
+
+    /**
      * Cleeng Customer API: getCustomerInfo()
      *
      */
@@ -279,6 +292,16 @@ class Cleeng_Api
     {
         $userInfo = new Cleeng_Entity_CustomerInfo();
         return $this->api('getCustomerInfo', array('customerToken' => $this->getCustomerToken()), $userInfo);
+    }
+
+    /**
+     * Cleeng Publisher API: getPublisherInfo()
+     *
+     */
+    public function getPublisherInfo()
+    {
+        $userInfo = new Cleeng_Entity_PublisherInfo();
+        return $this->api('getPublisherInfo', array('publisherToken' => $this->getPublisherToken()), $userInfo);
     }
 
 }

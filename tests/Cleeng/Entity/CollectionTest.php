@@ -19,7 +19,7 @@ class Cleeng_Entity_CollectionTest extends PHPUnit_Framework_TestCase
     public function testCollectionCreatesEntities()
     {
         $collection = new Cleeng_Entity_Collection('Cleeng_TestEntity');
-        $collection->popuplate(array(
+        $collection->populate(array(
             array(
                 'id' => 1,
                 'title' => 'Foo'

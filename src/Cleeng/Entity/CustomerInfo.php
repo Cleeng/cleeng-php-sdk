@@ -1,5 +1,6 @@
 <?php
 
+
 class Cleeng_Entity_CustomerInfo extends Cleeng_Entity_Base
 {
 

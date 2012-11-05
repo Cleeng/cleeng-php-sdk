@@ -22,9 +22,7 @@ class Cleeng_Entity_Base
             throw new Cleeng_Exception_InvalidArgumentException("Data must be an array or object implementing Traversable.");
         }
         foreach ($data as $k => $v) {
-            if (property_exists($this, $k)) {
-                $this->$k = $v;
-            }
+            $this->$k = $v;
         }
         $this->pending = false;
     }
@@ -66,9 +64,7 @@ class Cleeng_Entity_Base
      */
     public function __set($property, $value)
     {
-        if (property_exists($this, $property)) {
-            $this->$property = $value;
-        }
+        $this->$property = $value;
     }
 
 }

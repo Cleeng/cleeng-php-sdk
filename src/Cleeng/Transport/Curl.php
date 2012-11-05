@@ -22,7 +22,7 @@ class Cleeng_Transport_Curl extends Cleeng_Transport_AbstractTransport
      *
      * @param $url
      * @param $data
-     * @throws Cleeng_HttpErrorException
+     * @throws Cleeng_Exception_HttpErrorException
      * @return string
      */
     public function call($url, $data)
@@ -43,10 +43,19 @@ class Cleeng_Transport_Curl extends Cleeng_Transport_AbstractTransport
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $buffer = curl_exec($ch);
-        $this->apiResponse = $buffer;
-        $this->apiResponseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        if ($this->apiResponseCode !== 200) {
-            throw new Cleeng_HttpErrorException('Invalid HTTP response code (' . $this->apiResponseCode . ').');
+
+        $err = curl_errno($ch);
+        if ($err != 0) {
+            throw new Cleeng_Exception_HttpErrorException("cURL error ($err): " . curl_error($ch));
+        }
+
+        $apiResponseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        if ($apiResponseCode !== 200) {
+            throw new Cleeng_Exception_HttpErrorException('Invalid HTTP response code (' . $apiResponseCode . ').');
+        }
+
+        if (!strlen($buffer)) {
+            throw new Cleeng_Exception_HttpErrorException('No data received.');
         }
 
         return $buffer;

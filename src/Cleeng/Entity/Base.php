@@ -47,7 +47,7 @@ class Cleeng_Entity_Base
     public function __get($property)
     {
         if ($this->pending) {
-            throw new Cleeng_Exception_RuntimeException("Requested object is not received yet: call batchCommit() first.");
+            throw new Cleeng_Exception_RuntimeException("Object is not received from API yet.");
         }
         if (!property_exists($this, $property)) {
             throw new Cleeng_Exception_InvalidArgumentException("Property '$property' does not exist'.");

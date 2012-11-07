@@ -77,7 +77,7 @@ class Cleeng_Api
      * @param Cleeng_Entity_Base $objectToPopuplate
      * @return Cleeng_Entity_Base
      */
-    public function api($method, $params, $objectToPopuplate)
+    public function api($method, $params = array(), $objectToPopuplate = null)
     {
         $id = count($this->pendingCalls)+1;
         $payload = json_encode(
@@ -123,10 +123,15 @@ class Cleeng_Api
         $decodedResponse = json_decode($raw, true);
 
         if (!$decodedResponse) {
-            throw new Cleeng_Exception_RuntimeException("Expected valid JSON string, received: $raw");
+            throw new Cleeng_Exception_InvalidJsonException("Expected valid JSON string, received: $raw");
         }
 
         foreach ($decodedResponse as $response) {
+
+            if (!isset($response['id'])) {
+                throw new Cleeng_Exception_RuntimeException("Invalid response from API - missing JSON-RPC ID.");
+            }
+
             if (isset($this->pendingCalls[$response['id']])) {
                 $transferObject = $this->pendingCalls[$response['id']]['entity'];
                 $transferObject->pending = false;
@@ -134,6 +139,12 @@ class Cleeng_Api
                 if ($response['error']) {
                     throw new Cleeng_Exception_ApiErrorException($response['error']['message']);
                 } else {
+                    if (!is_array($response['result'])) {
+                        throw new Cleeng_Exception_ApiErrorException(
+                            "Invalid response type received from API. Expected array, got "
+                                . getType($response['result']) . '.'
+                        );
+                    }
                     $transferObject->populate($response['result']);
                 }
             }

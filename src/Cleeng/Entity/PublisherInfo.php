@@ -14,7 +14,7 @@ class Cleeng_Entity_PublisherInfo extends Cleeng_Entity_Base
 
     protected $country;
 
-    protected $publisherPlan;
+    protected $licenseType;
 
     protected $firstName;
 
@@ -22,6 +22,6 @@ class Cleeng_Entity_PublisherInfo extends Cleeng_Entity_Base
 
     protected $siteName;
 
-    protected $userName;
+    protected $publisherData;
 
 }

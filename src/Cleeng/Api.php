@@ -122,6 +122,10 @@ class Cleeng_Api
         $this->rawResponse = $raw;
         $decodedResponse = json_decode($raw, true);
 
+        if (!$decodedResponse) {
+            throw new Cleeng_Exception_RuntimeException("Expected valid JSON string, received: $raw");
+        }
+
         foreach ($decodedResponse as $response) {
             if (isset($this->pendingCalls[$response['id']])) {
                 $transferObject = $this->pendingCalls[$response['id']]['entity'];
@@ -273,6 +277,31 @@ class Cleeng_Api
     }
 
     /**
+     * Cleeng Query API: getPublisherSingleOffers
+     *
+     * @param $publisherId
+     * @param array $criteria
+     * @param int $page
+     * @param int $itemsPerPage
+     *
+     * @return \Cleeng_Entity_Collection
+     */
+    public function getPublisherSingleOffers($publisherId, $criteria = array(), $page = 1, $itemsPerPage = 20)
+    {
+        $collection = new Cleeng_Entity_Collection('Cleeng_Entity_SingleOffer');
+        return $this->api(
+            'getPublisherSingleOffers',
+            array(
+                'publisherId' => $publisherId,
+                'criteria' => $criteria,
+                'page' => $page,
+                'itemsPerPage' => $itemsPerPage,
+            ),
+            $collection
+        );
+    }
+
+    /**
      * Cleeng Query API: getRentalOffer
      *
      * @param string $offerId
@@ -282,6 +311,69 @@ class Cleeng_Api
     {
         $offer = new Cleeng_Entity_RentalOffer();
         return $this->api('getRentalOffer', array('offerId' => $offerId), $offer);
+    }
+
+    /**
+     * Cleeng Query API: getPublisherRentalOffers
+     *
+     * @param $publisherId
+     * @param array $criteria
+     * @param int $page
+     * @param int $itemsPerPage
+     *
+     * @return \Cleeng_Entity_Collection
+     */
+    public function getPublisherRentalOffers($publisherId, $criteria = array(), $page = 1, $itemsPerPage = 20)
+    {
+        $collection = new Cleeng_Entity_Collection('Cleeng_Entity_RentalOffer');
+        return $this->api(
+            'getPublisherRentalOffers',
+            array(
+                'publisherId' => $publisherId,
+                'criteria' => $criteria,
+                'page' => $page,
+                'itemsPerPage' => $itemsPerPage,
+            ),
+            $collection
+        );
+    }
+
+    /**
+     * Cleeng Query API: getSubscriptionOffer
+     *
+     * @param string $offerId
+     * @return Cleeng_Entity_SubscriptionOffer
+     */
+    public function getSubscriptionOffer($offerId)
+    {
+        $offer = new Cleeng_Entity_SubscriptionOffer();
+        return $this->api('getSubscriptionOffer', array('offerId' => $offerId), $offer);
+    }
+
+
+    /**
+     * Cleeng Query API: getPublisherSubscriptionOffers
+     *
+     * @param $publisherId
+     * @param array $criteria
+     * @param int $page
+     * @param int $itemsPerPage
+     *
+     * @return \Cleeng_Entity_Collection
+     */
+    public function getPublisherSubscriptionOffers($publisherId, $criteria = array(), $page = 1, $itemsPerPage = 20)
+    {
+        $collection = new Cleeng_Entity_Collection('Cleeng_Entity_SubscriptionOffer');
+        return $this->api(
+            'getPublisherSubscriptionOffers',
+            array(
+                'publisherId' => $publisherId,
+                'criteria' => $criteria,
+                'page' => $page,
+                'itemsPerPage' => $itemsPerPage,
+            ),
+            $collection
+        );
     }
 
     /**

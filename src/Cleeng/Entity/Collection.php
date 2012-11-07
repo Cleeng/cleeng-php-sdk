@@ -7,6 +7,8 @@ class Cleeng_Entity_Collection extends Cleeng_Entity_Base implements IteratorAgg
 
     protected $items = array();
 
+    protected $count;
+
     public function __construct($entityType = 'Cleeng_Entity_Base')
     {
         parent::__construct();
@@ -16,11 +18,12 @@ class Cleeng_Entity_Collection extends Cleeng_Entity_Base implements IteratorAgg
     public function populate($data)
     {
         $this->items = array();
-        foreach ($data as $item) {
+        foreach ($data['items'] as $item) {
             $object = new $this->entityType();
             $object->populate($item);
             $this->items[] = $object;
         }
+        $this->count = $data['totalItemCount'];
         $this->pending = false;
     }
 

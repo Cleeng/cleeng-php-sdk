@@ -288,25 +288,23 @@ class Cleeng_Api
     }
 
     /**
-     * Cleeng Query API: getPublisherSingleOffers
+     * Cleeng Query API: listSingleOffers
      *
-     * @param $publisherId
      * @param array $criteria
-     * @param int $page
-     * @param int $itemsPerPage
+     * @param int $offset
+     * @param int $limit
      *
-     * @return \Cleeng_Entity_Collection
+     * @return Cleeng_Entity_Collection
      */
-    public function getPublisherSingleOffers($publisherId, $criteria = array(), $page = 1, $itemsPerPage = 20)
+    public function listSingleOffers($criteria = array(), $offset = 0, $limit = 20)
     {
         $collection = new Cleeng_Entity_Collection('Cleeng_Entity_SingleOffer');
         return $this->api(
-            'getPublisherSingleOffers',
+            'listSingleOffers',
             array(
-                'publisherId' => $publisherId,
                 'criteria' => $criteria,
-                'page' => $page,
-                'itemsPerPage' => $itemsPerPage,
+                'offset' => $offset,
+                'limit' => $limit,
             ),
             $collection
         );
@@ -325,25 +323,23 @@ class Cleeng_Api
     }
 
     /**
-     * Cleeng Query API: getPublisherRentalOffers
+     * Cleeng Query API: listRentalOffers
      *
-     * @param $publisherId
      * @param array $criteria
-     * @param int $page
-     * @param int $itemsPerPage
+     * @param int $offset
+     * @param int $limit
      *
-     * @return \Cleeng_Entity_Collection
+     * @return Cleeng_Entity_Collection
      */
-    public function getPublisherRentalOffers($publisherId, $criteria = array(), $page = 1, $itemsPerPage = 20)
+    public function listRentalOffers($criteria = array(), $offset = 0, $limit = 20)
     {
         $collection = new Cleeng_Entity_Collection('Cleeng_Entity_RentalOffer');
         return $this->api(
-            'getPublisherRentalOffers',
+            'listRentalOffers',
             array(
-                'publisherId' => $publisherId,
                 'criteria' => $criteria,
-                'page' => $page,
-                'itemsPerPage' => $itemsPerPage,
+                'offset' => $offset,
+                'limit' => $limit,
             ),
             $collection
         );
@@ -363,45 +359,43 @@ class Cleeng_Api
 
 
     /**
-     * Cleeng Query API: getPublisherSubscriptionOffers
+     * Cleeng Query API: listSubscriptionOffers
      *
-     * @param $publisherId
      * @param array $criteria
-     * @param int $page
-     * @param int $itemsPerPage
+     * @param int $offset
+     * @param int $limit
      *
-     * @return \Cleeng_Entity_Collection
+     * @return Cleeng_Entity_Collection
      */
-    public function getPublisherSubscriptionOffers($publisherId, $criteria = array(), $page = 1, $itemsPerPage = 20)
+    public function listSubscriptionOffers($criteria = array(), $offset = 1, $limit = 20)
     {
         $collection = new Cleeng_Entity_Collection('Cleeng_Entity_SubscriptionOffer');
         return $this->api(
-            'getPublisherSubscriptionOffers',
+            'listSubscriptionOffers',
             array(
-                'publisherId' => $publisherId,
                 'criteria' => $criteria,
-                'page' => $page,
-                'itemsPerPage' => $itemsPerPage,
+                'offset' => $offset,
+                'limit' => $limit,
             ),
             $collection
         );
     }
 
     /**
-     * Cleeng Customer API: getCustomerInfo()
+     * Cleeng Customer API: getCustomer()
      *
      */
-    public function getCustomerInfo()
+    public function getCustomer()
     {
         $userInfo = new Cleeng_Entity_Customer();
         return $this->api('getCustomer', array('customerToken' => $this->getCustomerToken()), $userInfo);
     }
 
     /**
-     * Cleeng Publisher API: getPublisherInfo()
+     * Cleeng Publisher API: getPublisher()
      *
      */
-    public function getPublisherInfo()
+    public function getPublisher()
     {
         $userInfo = new Cleeng_Entity_Publisher();
         return $this->api('getPublisher', array('publisherToken' => $this->getPublisherToken()), $userInfo);

@@ -393,8 +393,8 @@ class Cleeng_Api
      */
     public function getCustomerInfo()
     {
-        $userInfo = new Cleeng_Entity_CustomerInfo();
-        return $this->api('getCustomerInfo', array('customerToken' => $this->getCustomerToken()), $userInfo);
+        $userInfo = new Cleeng_Entity_Customer();
+        return $this->api('getCustomer', array('customerToken' => $this->getCustomerToken()), $userInfo);
     }
 
     /**
@@ -403,8 +403,8 @@ class Cleeng_Api
      */
     public function getPublisherInfo()
     {
-        $userInfo = new Cleeng_Entity_PublisherInfo();
-        return $this->api('getPublisherInfo', array('publisherToken' => $this->getPublisherToken()), $userInfo);
+        $userInfo = new Cleeng_Entity_Publisher();
+        return $this->api('getPublisher', array('publisherToken' => $this->getPublisherToken()), $userInfo);
     }
 
 }

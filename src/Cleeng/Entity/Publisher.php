@@ -1,7 +1,7 @@
 <?php
 
 
-class Cleeng_Entity_PublisherInfo extends Cleeng_Entity_Base
+class Cleeng_Entity_Publisher extends Cleeng_Entity_Base
 {
 
     protected $id;

@@ -1,7 +1,7 @@
 <?php
 
 
-class Cleeng_Entity_CustomerInfo extends Cleeng_Entity_Base
+class Cleeng_Entity_Customer extends Cleeng_Entity_Base
 {
 
     protected $id;

@@ -392,6 +392,19 @@ class Cleeng_Api
     }
 
     /**
+     * Cleeng Customer API: getAccessStatus()
+     *
+     */
+    public function getAccessStatus($offerId)
+    {
+        return $this->api(
+            'getAccessStatus',
+            array('customerToken' => $this->getCustomerToken(), 'offerId' => $offerId),
+            new Cleeng_Entity_AccessStatus()
+        );
+    }
+
+    /**
      * Cleeng Publisher API: getPublisher()
      *
      */

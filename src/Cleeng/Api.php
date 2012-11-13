@@ -43,6 +43,13 @@ class Cleeng_Api
     protected $publisherToken;
 
     /**
+     * Distributor's token - must be set manually with setDistributorToken()
+     *
+     * @var string
+     */
+    protected $distributorToken;
+
+    /**
      * Customer's access token - should be read automatically from cookie
      * @var string
      */
@@ -274,6 +281,27 @@ class Cleeng_Api
     {
         return $this->publisherToken;
     }
+    /**
+     * Set distributor's token
+     *
+     * @param string $distributorToken
+     * @return Cleeng_Client provides fluent interface
+     */
+    public function setDistributorToken($distributorToken)
+    {
+        $this->distributorToken = $distributorToken;
+        return $this;
+    }
+
+    /**
+     * Returns distributor's token
+     *
+     * @return string
+     */
+    public function getDistributorToken()
+    {
+        return $this->distributorToken;
+    }
 
     /**
      * Cleeng Query API: getSingleOffer
@@ -412,6 +440,15 @@ class Cleeng_Api
     {
         $userInfo = new Cleeng_Entity_Publisher();
         return $this->api('getPublisher', array('publisherToken' => $this->getPublisherToken()), $userInfo);
+    }
+
+    public function getAssociate($associateEmail)
+    {
+        return $this->api(
+            'getAssociate',
+            array('distributorToken' => $this->getDistributorToken(), 'associateEmail' => $associateEmail),
+            new Cleeng_Entity_Associate()
+        );
     }
 
 }

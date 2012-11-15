@@ -70,7 +70,18 @@ class Cleeng_Api
     protected $appId = '35e97a6231236gb456heg6bd7a6bdsf7';
 
     /**
-     * Last response from Cleeng server
+     * Last request sent to Cleeng server.
+     *
+     * Can be used for debugging purposes.
+     *
+     * @var string
+     */
+    protected $rawRequest;
+
+    /**
+     * Last response from Cleeng server.
+     *
+     * Can be used for debugging purposes.
      *
      * @var string
      */
@@ -89,10 +100,10 @@ class Cleeng_Api
         $id = count($this->pendingCalls)+1;
         $payload = json_encode(
             array(
+                'method' => $method,
+                'params' => $params,
                 'jsonrpc' => '2.0',
                 'id' => $id,
-                'method' => $method,
-                'params' => $params
             )
         );
 
@@ -125,6 +136,7 @@ class Cleeng_Api
         }
 
         $encodedRequest = '[' . implode(',', $requestData) . ']';
+        $this->rawRequest = $encodedRequest;
         $raw = $this->getTransport()->call($this->getEndpoint(), $encodedRequest);
         $this->rawResponse = $raw;
         $decodedResponse = json_decode($raw, true);
@@ -215,6 +227,14 @@ class Cleeng_Api
     public function getRawResponse()
     {
         return $this->rawResponse;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRawRequest()
+    {
+        return $this->rawRequest;
     }
 
     /**

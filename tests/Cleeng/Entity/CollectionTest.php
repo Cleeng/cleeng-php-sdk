@@ -20,14 +20,16 @@ class Cleeng_Entity_CollectionTest extends PHPUnit_Framework_TestCase
     {
         $collection = new Cleeng_Entity_Collection('Cleeng_TestEntity');
         $collection->populate(array(
-            array(
-                'id' => 1,
-                'title' => 'Foo'
+            'items' => array(array(
+                    'id' => 1,
+                    'title' => 'Foo'
+                ),
+                array(
+                    'id' => 2,
+                    'title' => 'Bar'
+                ),
             ),
-            array(
-                'id' => 2,
-                'title' => 'Bar'
-            ),
+            'totalItemCount' => 2
         ));
 
         foreach ($collection as $entity) {

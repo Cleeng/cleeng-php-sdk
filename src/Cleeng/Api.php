@@ -53,7 +53,7 @@ class Cleeng_Api
      * Customer's access token - should be read automatically from cookie
      * @var string
      */
-    protected $customerToken;
+    protected $customerToken = '';
 
     /**
      * Name of cookie used to store customer's access token

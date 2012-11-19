@@ -548,7 +548,7 @@ class Cleeng_Api
     /**
      * Single Offer API: createSingleOffer
      *
-     * @param $offerData
+     * @param array $offerData
      * @return Cleeng_Entity_SingleOffer
      * @throws Cleeng_Exception_RuntimeException
      */
@@ -565,6 +565,106 @@ class Cleeng_Api
                 'offerData' => $offerData
             ),
             new Cleeng_Entity_SingleOffer()
+        );
+    }
+
+    /**
+     * Single Offer API: updateSingleOffer
+     *
+     * @param string $offerId
+     * @param array $offerData
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_SingleOffer
+     */
+    public function updateSingleOffer($offerId, $offerData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'updateSingleOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerId' => $offerId,
+                'offerData' => $offerData,
+            ),
+            new Cleeng_Entity_SingleOffer()
+        );
+    }
+
+    /**
+     * Single Offer API: deactivateSingleOffer
+     *
+     * @param string $offerId
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_SingleOffer
+     */
+    public function deactivateSingleOffer($offerId)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'deactivateSingleOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerId' => $offerId,
+            ),
+            new Cleeng_Entity_SingleOffer()
+        );
+    }
+
+    /**
+     * Single Offer API: createMultiCurrencySingleOffer
+     *
+     * @param array $offerData
+     * @param $localizedData
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_Base
+     */
+    public function createMultiCurrencySingleOffer($offerData, $localizedData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'createMultiCurrencySingleOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerData' => $offerData,
+                'localizedData' => $localizedData,
+            ),
+            new Cleeng_Entity_Base()
+        );
+    }
+
+    /**
+     * Single Offer API: updateMultiCurrencySingleOffer
+     *
+     * @param $multiCurrencyOfferId
+     * @param array $offerData
+     * @param $localizedData
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_Base
+     */
+    public function updateMultiCurrencySingleOffer($multiCurrencyOfferId, $offerData, $localizedData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'createMultiCurrencySingleOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'multiCurrencyOfferId' => $multiCurrencyOfferId,
+                'offerData' => $offerData,
+                'localizedData' => $localizedData,
+            ),
+            new Cleeng_Entity_Base()
         );
     }
 
@@ -604,6 +704,287 @@ class Cleeng_Api
     }
 
     /**
+     * Rental Offer API: createRentalOffer
+     *
+     * @param array $offerData
+     * @return Cleeng_Entity_SingleOffer
+     * @throws Cleeng_Exception_RuntimeException
+     */
+    public function createRentalOffer($offerData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'createRentalOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerData' => $offerData
+            ),
+            new Cleeng_Entity_RentalOffer()
+        );
+    }
+
+    /**
+     * Rental Offer API: updateRentalOffer
+     *
+     * @param string $offerId
+     * @param array $offerData
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_RentalOffer
+     */
+    public function updateRentalOffer($offerId, $offerData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'updateRentalOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerId' => $offerId,
+                'offerData' => $offerData,
+            ),
+            new Cleeng_Entity_RentalOffer()
+        );
+    }
+
+    /**
+     * Rental Offer API: deactivateRentalOffer
+     *
+     * @param string $offerId
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_RentalOffer
+     */
+    public function deactivateRentalOffer($offerId)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'deactivateRentalOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerId' => $offerId,
+            ),
+            new Cleeng_Entity_RentalOffer()
+        );
+    }
+
+    /**
+     * Rental Offer API: createMultiCurrencyRentalOffer
+     *
+     * @param array $offerData
+     * @param $localizedData
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_RentalOffer
+     */
+    public function createMultiCurrencyRentalOffer($offerData, $localizedData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'createMultiCurrencyRentalOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerData' => $offerData,
+                'localizedData' => $localizedData,
+            ),
+            new Cleeng_Entity_Base()
+        );
+    }
+
+    /**
+     * Rental Offer API: updateMultiCurrencyRentalOffer
+     *
+     * @param $multiCurrencyOfferId
+     * @param array $offerData
+     * @param $localizedData
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_Base
+     */
+    public function updateMultiCurrencyRentalOffer($multiCurrencyOfferId, $offerData, $localizedData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'createMultiCurrencyRentalOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'multiCurrencyOfferId' => $multiCurrencyOfferId,
+                'offerData' => $offerData,
+                'localizedData' => $localizedData,
+            ),
+            new Cleeng_Entity_Base()
+        );
+    }
+
+    /**
+     * Event Offer API: getEventOffer
+     *
+     * @param string $offerId
+     * @return Cleeng_Entity_EventOffer
+     */
+    public function getEventOffer($offerId)
+    {
+        $offer = new Cleeng_Entity_EventOffer();
+        return $this->api('getEventOffer', array('offerId' => $offerId), $offer);
+    }
+
+    /**
+     * Event Offer API: listEventOffers
+     *
+     * @param array $criteria
+     * @param int $offset
+     * @param int $limit
+     *
+     * @return Cleeng_Entity_Collection
+     */
+    public function listEventOffers($criteria = array(), $offset = 0, $limit = 20)
+    {
+        $collection = new Cleeng_Entity_Collection('Cleeng_Entity_EventOffer');
+        return $this->api(
+            'listEventOffers',
+            array(
+                'criteria' => $criteria,
+                'offset' => $offset,
+                'limit' => $limit,
+            ),
+            $collection
+        );
+    }
+
+    /**
+     * Event Offer API: createEventOffer
+     *
+     * @param array $offerData
+     * @return Cleeng_Entity_SingleOffer
+     * @throws Cleeng_Exception_RuntimeException
+     */
+    public function createEventOffer($offerData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'createEventOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerData' => $offerData
+            ),
+            new Cleeng_Entity_EventOffer()
+        );
+    }
+
+    /**
+     * Event Offer API: updateEventOffer
+     *
+     * @param string $offerId
+     * @param array $offerData
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_EventOffer
+     */
+    public function updateEventOffer($offerId, $offerData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'updateEventOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerId' => $offerId,
+                'offerData' => $offerData,
+            ),
+            new Cleeng_Entity_EventOffer()
+        );
+    }
+
+    /**
+     * Event Offer API: deactivateEventOffer
+     *
+     * @param string $offerId
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_EventOffer
+     */
+    public function deactivateEventOffer($offerId)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'deactivateEventOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerId' => $offerId,
+            ),
+            new Cleeng_Entity_EventOffer()
+        );
+    }
+
+    /**
+     * Event Offer API: createMultiCurrencyEventOffer
+     *
+     * @param array $offerData
+     * @param $localizedData
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_EventOffer
+     */
+    public function createMultiCurrencyEventOffer($offerData, $localizedData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'createMultiCurrencyEventOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerData' => $offerData,
+                'localizedData' => $localizedData,
+            ),
+            new Cleeng_Entity_Base()
+        );
+    }
+
+    /**
+     * Event Offer API: updateMultiCurrencyEventOffer
+     *
+     * @param $multiCurrencyOfferId
+     * @param array $offerData
+     * @param $localizedData
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_Base
+     */
+    public function updateMultiCurrencyEventOffer($multiCurrencyOfferId, $offerData, $localizedData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'createMultiCurrencyEventOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'multiCurrencyOfferId' => $multiCurrencyOfferId,
+                'offerData' => $offerData,
+                'localizedData' => $localizedData,
+            ),
+            new Cleeng_Entity_Base()
+        );
+    }
+
+    /**
      * Subscription Offer API: getSubscriptionOffer
      *
      * @param string $offerId
@@ -636,6 +1017,102 @@ class Cleeng_Api
                 'limit' => $limit,
             ),
             $collection
+        );
+    }
+
+    /**
+     * Subscription Offer API: createSubscriptionOffer
+     *
+     * @param array $offerData
+     * @return Cleeng_Entity_SingleOffer
+     * @throws Cleeng_Exception_RuntimeException
+     */
+    public function createSubscriptionOffer($offerData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'createSubscriptionOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerData' => $offerData
+            ),
+            new Cleeng_Entity_SubscriptionOffer()
+        );
+    }
+
+    /**
+     * Subscription Offer API: updateSubscriptionOffer
+     *
+     * @param string $offerId
+     * @param array $offerData
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_SubscriptionOffer
+     */
+    public function updateSubscriptionOffer($offerId, $offerData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'updateSubscriptionOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerId' => $offerId,
+                'offerData' => $offerData,
+            ),
+            new Cleeng_Entity_SubscriptionOffer()
+        );
+    }
+
+    /**
+     * Subscription Offer API: deactivateSubscriptionOffer
+     *
+     * @param string $offerId
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_SubscriptionOffer
+     */
+    public function deactivateSubscriptionOffer($offerId)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'deactivateSubscriptionOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerId' => $offerId,
+            ),
+            new Cleeng_Entity_SubscriptionOffer()
+        );
+    }
+
+    /**
+     * Subscription Offer API: createMultiCurrencySubscriptionOffer
+     *
+     * @param array $offerData
+     * @param $localizedData
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_SubscriptionOffer
+     */
+    public function createMultiCurrencySubscriptionOffer($offerData, $localizedData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'createMultiCurrencySubscriptionOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerData' => $offerData,
+                'localizedData' => $localizedData,
+            ),
+            new Cleeng_Entity_Base()
         );
     }
 
@@ -700,6 +1177,13 @@ class Cleeng_Api
         );
     }
 
+    /**
+     * Wrapper for getAccessStatus method
+     *
+     * @param $offerId
+     * @param string $ipAddress
+     * @return bool
+     */
     public function isAccessGranted($offerId, $ipAddress='')
     {
         return $this->getAccessStatus($offerId, $ipAddress)->accessGranted;

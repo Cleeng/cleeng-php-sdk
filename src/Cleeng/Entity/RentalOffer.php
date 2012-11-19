@@ -33,8 +33,6 @@ class Cleeng_Entity_RentalOffer extends Cleeng_Entity_Base
 
     protected $publisherId;
 
-    protected $shortUrl;
-
     protected $active;
 
 }

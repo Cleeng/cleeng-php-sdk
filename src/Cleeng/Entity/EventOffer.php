@@ -1,6 +1,6 @@
 <?php
 
-class Cleeng_Entity_SingleOffer extends Cleeng_Entity_Base
+class Cleeng_Entity_EventOffer extends Cleeng_Entity_Base
 {
 
     protected $id;
@@ -32,4 +32,16 @@ class Cleeng_Entity_SingleOffer extends Cleeng_Entity_Base
     protected $publisherId;
 
     protected $active;
+
+    protected $eventStartTime;
+
+    protected $eventEndTime;
+
+    protected $eventRemainderEmailActivated;
+
+    protected $eventRemainderEmailBody;
+
+    protected $eventVideoOnDemand;
+
+    protected $eventVideoOnDemandRentalPeriod;
 }

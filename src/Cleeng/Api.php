@@ -494,13 +494,18 @@ class Cleeng_Api
      *
      * Publisher API: getPublisher()
      *
+     * @throws Cleeng_Exception_RuntimeException
      * @return Cleeng_Entity_Publisher
      */
     public function getPublisher()
     {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
         return $this->api(
             'getPublisher',
-            array('publisherToken' => $this->getPublisherToken()),
+            array('publisherToken' => $publisherToken),
             new Cleeng_Entity_Publisher()
         );
     }
@@ -537,6 +542,29 @@ class Cleeng_Api
                 'limit' => $limit,
             ),
             $collection
+        );
+    }
+
+    /**
+     * Single Offer API: createSingleOffer
+     *
+     * @param $offerData
+     * @return Cleeng_Entity_SingleOffer
+     * @throws Cleeng_Exception_RuntimeException
+     */
+    public function createSingleOffer($offerData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'createSingleOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerData' => $offerData
+            ),
+            new Cleeng_Entity_SingleOffer()
         );
     }
 
@@ -670,5 +698,10 @@ class Cleeng_Api
             array('distributorToken' => $distributorToken, 'associateEmail' => $associateEmail, 'associateData' => $associateData),
             new Cleeng_Entity_Associate()
         );
+    }
+
+    public function isAccessGranted($offerId, $ipAddress='')
+    {
+        return $this->getAccessStatus($offerId, $ipAddress)->accessGranted;
     }
 }

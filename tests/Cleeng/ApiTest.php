@@ -192,4 +192,60 @@ class Cleeng_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('monthly', $entity->period);
     }
 
+    public function testGetAssociate()
+    {
+        $transport = $this->getMock('Cleeng_Transport_AbstractTransport', array('call'));
+        $transport->expects($this->once())->method('call')
+            ->will($this->returnValue('[{"result":{"id":466275823,"email":"associate@domain.com","name":"mtymek+n4","currency":"EUR","locale":"en_US","country":"US","firstName":"","lastName":"","siteName":null,"publisherData":null,"licenseType":"plug_and_go"},"id":"1","error":null,"jsonrpc":"2.0"}]'));
+
+        $api = new Cleeng_Api();
+        $api->setTransport($transport);
+        $api->setDistributorToken('XXXXX');
+        $entity = $api->getAssociate('associate@domain.com');
+        $this->assertInstanceOf('Cleeng_Entity_Associate', $entity);
+        $this->assertEquals('associate@domain.com', $entity->email);
+        $this->assertEquals('en_US', $entity->locale);
+        $this->assertEquals('US', $entity->country);
+    }
+
+    public function testCreateAssociate()
+    {
+        $transport = $this->getMock('Cleeng_Transport_AbstractTransport', array('call'));
+        $transport->expects($this->once())->method('call')
+            ->will($this->returnValue('[{"result":{"id":466275823,"email":"associate@domain.com","name":"mtymek+n4","currency":"EUR","locale":"en_US","country":"US","firstName":"","lastName":"","siteName":null,"publisherData":null,"licenseType":"plug_and_go"},"id":"1","error":null,"jsonrpc":"2.0"}]'));
+
+        $api = new Cleeng_Api();
+        $api->setTransport($transport);
+        $api->setDistributorToken('XXXXX');
+        $entity = $api->createAssociate(array(
+            'email' => 'associate@domain.com',
+            'locale' => 'en_US',
+            'country' => 'US',
+        ));
+        $this->assertInstanceOf('Cleeng_Entity_Associate', $entity);
+        $this->assertEquals('associate@domain.com', $entity->email);
+        $this->assertEquals('en_US', $entity->locale);
+        $this->assertEquals('US', $entity->country);
+    }
+
+    public function testUpdateAssociate()
+    {
+        $transport = $this->getMock('Cleeng_Transport_AbstractTransport', array('call'));
+        $transport->expects($this->once())->method('call')
+            ->will($this->returnValue('[{"result":{"id":466275823,"email":"new_associate_email@domain.com","name":"mtymek+n4","currency":"EUR","locale":"en_US","country":"US","firstName":"","lastName":"","siteName":null,"publisherData":null,"licenseType":"plug_and_go"},"id":"1","error":null,"jsonrpc":"2.0"}]'));
+
+        $api = new Cleeng_Api();
+        $api->setTransport($transport);
+        $api->setDistributorToken('XXXXX');
+        $entity = $api->updateAssociate(
+            'old_associate_email@domain.com',
+            array(
+            'email' => 'new_associate_email@domain.com',
+        ));
+        $this->assertInstanceOf('Cleeng_Entity_Associate', $entity);
+        $this->assertEquals('new_associate_email@domain.com', $entity->email);
+        $this->assertEquals('en_US', $entity->locale);
+        $this->assertEquals('US', $entity->country);
+    }
+
 }

@@ -141,8 +141,12 @@ class Cleeng_Api
         $this->rawResponse = $raw;
         $decodedResponse = json_decode($raw, true);
 
-        if (!$decodedResponse) {
+        if (!is_array($decodedResponse)) {
             throw new Cleeng_Exception_InvalidJsonException("Expected valid JSON string, received: $raw");
+        }
+
+        if (!count($decodedResponse)) {
+            throw new Cleeng_Exception_InvalidJsonException("Empty response received.");
         }
 
         foreach ($decodedResponse as $response) {
@@ -324,8 +328,9 @@ class Cleeng_Api
     }
 
     /**
-     * Cleeng Customer API: getCustomer()
+     * Customer API: getCustomer
      *
+     * @return Cleeng_Entity_Customer
      */
     public function getCustomer()
     {
@@ -334,11 +339,28 @@ class Cleeng_Api
     }
 
     /**
-     * Cleeng Customer API: prepareRemoteAuth()
+     * Customer API: getAccessStatus
+     *
+     * @param $offerId
+     * @param string $ipAddress
+     * @return Cleeng_Entity_AccessStatus
+     */
+    public function getAccessStatus($offerId, $ipAddress = '')
+    {
+        $customerToken = $this->getCustomerToken();
+        return $this->api(
+            'getAccessStatus',
+            array('customerToken' => $customerToken, 'offerId' => $offerId, 'ipAddress' => $ipAddress),
+            new Cleeng_Entity_AccessStatus()
+        );
+    }
+
+    /**
+     * Customer API: prepareRemoteAuth
      *
      * @param $customerData
      * @param $flowDescription
-     * @return Cleeng_Entity_Base
+     * @return Cleeng_Entity_RemoteAuth
      * @throws Cleeng_Exception_InvalidArgumentException
      * @throws Cleeng_Exception_RuntimeException
      */
@@ -362,10 +384,10 @@ class Cleeng_Api
     }
 
     /**
-     * Cleeng Customer API: generateCustomerToken()
+     * Customer API: generateCustomerToken
      *
      * @param $customerEmail
-     * @return Cleeng_Entity_Base
+     * @return Cleeng_Entity_CustomerToken
      * @throws Cleeng_Exception_RuntimeException
      */
     public function generateCustomerToken($customerEmail)
@@ -382,11 +404,11 @@ class Cleeng_Api
     }
 
     /**
-     * Cleeng Customer API: updateCustomerEmail()
+     * Customer API: updateCustomerEmail
      *
      * @param $customerEmail
      * @param $newEmail
-     * @return Cleeng_Entity_Base
+     * @return Cleeng_Entity_OperationStatus
      * @throws Cleeng_Exception_RuntimeException
      */
     public function updateCustomerEmail($customerEmail, $newEmail)
@@ -402,6 +424,15 @@ class Cleeng_Api
         );
     }
 
+    /**
+     * Customer API: updateCustomerSubscription
+     *
+     * @param $customerEmail
+     * @param $offerId
+     * @param $subscriptionData
+     * @return Cleeng_Entity_CustomerSubscription
+     * @throws Cleeng_Exception_RuntimeException
+     */
     public function updateCustomerSubscription($customerEmail, $offerId, $subscriptionData)
     {
         $publisherToken = $this->getPublisherToken();
@@ -415,6 +446,15 @@ class Cleeng_Api
         );
     }
 
+    /**
+     * Customer API: updateCustomerRental
+     *
+     * @param $customerEmail
+     * @param $offerId
+     * @param $rentalData
+     * @return Cleeng_Entity_CustomerRental
+     * @throws Cleeng_Exception_RuntimeException
+     */
     public function updateCustomerRental($customerEmail, $offerId, $rentalData)
     {
         $publisherToken = $this->getPublisherToken();
@@ -428,6 +468,15 @@ class Cleeng_Api
         );
     }
 
+    /**
+     * Customer API: listCustomerSubscriptions
+     *
+     * @param $customerEmail
+     * @param $offset
+     * @param $limit
+     * @return Cleeng_Entity_Collection
+     * @throws Cleeng_Exception_RuntimeException
+     */
     public function listCustomerSubscriptions($customerEmail, $offset, $limit)
     {
         $publisherToken = $this->getPublisherToken();
@@ -442,7 +491,22 @@ class Cleeng_Api
     }
 
     /**
-     * Cleeng Query API: getSingleOffer
+     *
+     * Publisher API: getPublisher()
+     *
+     * @return Cleeng_Entity_Publisher
+     */
+    public function getPublisher()
+    {
+        return $this->api(
+            'getPublisher',
+            array('publisherToken' => $this->getPublisherToken()),
+            new Cleeng_Entity_Publisher()
+        );
+    }
+
+    /**
+     * Single Offer API: getSingleOffer
      *
      * @param string $offerId
      * @return Cleeng_Entity_SingleOffer
@@ -454,7 +518,7 @@ class Cleeng_Api
     }
 
     /**
-     * Cleeng Query API: listSingleOffers
+     * Single Offer API: listSingleOffers
      *
      * @param array $criteria
      * @param int $offset
@@ -477,7 +541,7 @@ class Cleeng_Api
     }
 
     /**
-     * Cleeng Query API: getRentalOffer
+     * Rental Offer API: getRentalOffer
      *
      * @param string $offerId
      * @return Cleeng_Entity_RentalOffer
@@ -489,7 +553,7 @@ class Cleeng_Api
     }
 
     /**
-     * Cleeng Query API: listRentalOffers
+     * Rental Offer API: listRentalOffers
      *
      * @param array $criteria
      * @param int $offset
@@ -512,7 +576,7 @@ class Cleeng_Api
     }
 
     /**
-     * Cleeng Query API: getSubscriptionOffer
+     * Subscription Offer API: getSubscriptionOffer
      *
      * @param string $offerId
      * @return Cleeng_Entity_SubscriptionOffer
@@ -525,7 +589,7 @@ class Cleeng_Api
 
 
     /**
-     * Cleeng Query API: listSubscriptionOffers
+     * Subscription Offer API: listSubscriptionOffers
      *
      * @param array $criteria
      * @param int $offset
@@ -548,47 +612,63 @@ class Cleeng_Api
     }
 
     /**
-     * Cleeng Customer API: getAccessStatus()
-     *
-     */
-    public function getAccessStatus($offerId, $ipAddress = '')
-    {
-        $customerToken = $this->getCustomerToken();
-        return $this->api(
-            'getAccessStatus',
-            array('customerToken' => $customerToken, 'offerId' => $offerId, 'ipAddress' => $ipAddress),
-            new Cleeng_Entity_AccessStatus()
-        );
-    }
-
-    /**
-     *
-     * Cleeng Publisher API: getPublisher()
-     *
-     * @return Cleeng_Entity_Publisher
-     */
-    public function getPublisher()
-    {
-        return $this->api(
-            'getPublisher',
-            array('publisherToken' => $this->getPublisherToken()),
-            new Cleeng_Entity_Publisher()
-        );
-    }
-
-    /**
-     * Cleeng Associate API: getAssociate()
+     * Associate API: getAssociate
      *
      * @param $associateEmail
+     * @throws Cleeng_Exception_RuntimeException
      * @return Cleeng_Entity_Associate
      */
     public function getAssociate($associateEmail)
     {
+        $distributorToken = $this->getDistributorToken();
+        if (!$distributorToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setDistributorToken must be used first.");
+        }
         return $this->api(
             'getAssociate',
-            array('distributorToken' => $this->getDistributorToken(), 'associateEmail' => $associateEmail),
+            array('distributorToken' => $distributorToken, 'associateEmail' => $associateEmail),
             new Cleeng_Entity_Associate()
         );
     }
 
+    /**
+     * Associate API: createAssociate
+     *
+     * @param $associateData
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_Associate
+     */
+    public function createAssociate($associateData)
+    {
+        $distributorToken = $this->getDistributorToken();
+        if (!$distributorToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setDistributorToken must be used first.");
+        }
+        return $this->api(
+            'createAssociate',
+            array('distributorToken' => $distributorToken, 'associateData' => $associateData),
+            new Cleeng_Entity_Associate()
+        );
+    }
+
+    /**
+     * Associate API: updateAssociate
+     *
+     * @param $associateEmail
+     * @param $associateData
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_Associate
+     */
+    public function updateAssociate($associateEmail, $associateData)
+    {
+        $distributorToken = $this->getDistributorToken();
+        if (!$distributorToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setDistributorToken must be used first.");
+        }
+        return $this->api(
+            'updateAssociate',
+            array('distributorToken' => $distributorToken, 'associateEmail' => $associateEmail, 'associateData' => $associateData),
+            new Cleeng_Entity_Associate()
+        );
+    }
 }

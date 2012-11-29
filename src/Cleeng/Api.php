@@ -6,14 +6,14 @@ class Cleeng_Api
     /**
      * API endpoint for Cleeng Sandbox
      */
-    const SANDBOX_ENDPOINT  = 'https://sandbox.cleeng.com/api/2.1/json-rpc';
+    const SANDBOX_ENDPOINT  = 'https://sandbox.cleeng.com/api/3.0/json-rpc';
 
     /**
      * API endpoint
      *
      * @var string
      */
-    protected $endpoint = 'https://api.cleeng.com/2.1/json-rpc';
+    protected $endpoint = 'https://api.cleeng.com/3.0/json-rpc';
 
     /**
      * Transport class used to communicate with Cleeng servers
@@ -336,6 +336,23 @@ class Cleeng_Api
     {
         $userInfo = new Cleeng_Entity_Customer();
         return $this->api('getCustomer', array('customerToken' => $this->getCustomerToken()), $userInfo);
+    }
+
+    /**
+     * Customer API: trackOfferImpression
+     *
+     * @param $offerId
+     * @param string $ipAddress
+     * @return Cleeng_Entity_OperationStatus
+     */
+    public function trackOfferImpression($offerId, $ipAddress = '')
+    {
+        $status = new Cleeng_Entity_OperationStatus();
+        if ($token = $this->getCustomerToken()) {
+            return $this->api('trackOfferImpression', array('offerId' => $offerId, 'customerToken' => $token, 'ipAddress' => $ipAddress), $status);
+        } else {
+            return $this->api('trackOfferImpression', array('offerId' => $offerId, 'ipAddress' => $ipAddress), $status);
+        }
     }
 
     /**

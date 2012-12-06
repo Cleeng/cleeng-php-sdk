@@ -23,11 +23,21 @@ class Cleeng_Api
     const SANDBOX_ENDPOINT  = 'https://sandbox.cleeng.com/api/3.0/json-rpc';
 
     /**
-     * API endpoint
+     * Cleeng Javascript library for Cleeng Sandbox
+     */
+    const SANDBOX_JSAPI_URL  = 'https://sandbox.cleeng.com/js-api/3.0/api.js';
+
+    /**
+     * API endpoint - by default points to live platform
      *
      * @var string
      */
     protected $endpoint = 'https://api.cleeng.com/3.0/json-rpc';
+
+    /**
+     * Cleeng Javascript library URL
+     */
+    protected $jsApiUrl = 'https://d2089qbisawq08.cloudfront.net/js-api/3.0/api.js';
 
     /**
      * Transport class used to communicate with Cleeng servers
@@ -207,12 +217,24 @@ class Cleeng_Api
         return $this->endpoint;
     }
 
+    public function setJsApiUrl($jsApiUrl)
+    {
+        $this->jsApiUrl = $jsApiUrl;
+        return $this;
+    }
+
+    public function getJsApiUrl()
+    {
+        return $this->jsApiUrl;
+    }
+
     /**
      * Helper function for setting up test environment
      */
     public function enableSandbox()
     {
         $this->setEndpoint(self::SANDBOX_ENDPOINT);
+        $this->setJsApiUrl(self::SANDBOX_JSAPI_URL);
     }
 
     /**

@@ -116,10 +116,10 @@ class Cleeng_Api
      *
      * @param string $method
      * @param array $params
-     * @param Cleeng_Entity_Base $objectToPopuplate
+     * @param Cleeng_Entity_Base $objectToPopulate
      * @return Cleeng_Entity_Base
      */
-    public function api($method, $params = array(), $objectToPopuplate = null)
+    public function api($method, $params = array(), $objectToPopulate = null)
     {
         $id = count($this->pendingCalls)+1;
         $payload = json_encode(
@@ -131,12 +131,12 @@ class Cleeng_Api
             )
         );
 
-        if (null === $objectToPopuplate) {
-            $objectToPopuplate = new Cleeng_Entity_Base();
+        if (null === $objectToPopulate) {
+            $objectToPopulate = new Cleeng_Entity_Base();
         }
 
         $this->pendingCalls[$id] = array(
-            'entity' => $objectToPopuplate,
+            'entity' => $objectToPopulate,
             'payload' => $payload
         );
 
@@ -145,7 +145,7 @@ class Cleeng_Api
             $this->commit();
         }
 
-        return $objectToPopuplate;
+        return $objectToPopulate;
     }
 
     /**

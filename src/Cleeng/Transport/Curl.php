@@ -1,5 +1,17 @@
 <?php
+/**
+ * Cleeng PHP SDK (http://cleeng.com)
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ *
+ * @link    https://github.com/Cleeng/cleeng-php-sdk for the canonical source repository
+ * @package Cleeng_PHP_SDK
+ */
 
+/**
+ * Helper class for performing HTTP requests to Cleeng API endpoint
+ */
 class Cleeng_Transport_Curl extends Cleeng_Transport_AbstractTransport
 {
 

@@ -1,7 +1,7 @@
 Cleeng PHP SDK
 ==============
 
-PHP wrapper around [Cleeng Api](http://cleeng.com/open).
+PHP wrapper around [Cleeng API](http://cleeng.com/open) (version 3.0).
 
 Installation
 ------------

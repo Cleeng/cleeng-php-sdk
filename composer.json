@@ -5,8 +5,13 @@
     "version": "3.0.0",
     "keywords": [
         "cleeng",
-        "api"
+        "api",
+        "sdk"
     ],
+    "require": {
+        "php": ">=5.2.0",
+        "ext-curl": "*"
+    },
     "homepage": "http://cleeng.com/",
     "autoload": {
         "psr-0": {

@@ -31,8 +31,6 @@ class Cleeng_Entity_RentalOffer extends Cleeng_Entity_Base
 
     protected $description;
 
-    protected $socialCommissionEnabled;
-
     protected $socialCommissionRate;
 
     protected $contentType;
@@ -41,10 +39,15 @@ class Cleeng_Entity_RentalOffer extends Cleeng_Entity_Base
 
     protected $contentExternalData;
 
+    protected $contentAgeRestriction;
+
     protected $tags;
 
     protected $publisherId;
 
     protected $active;
 
+    protected $createdAt;
+
+    protected $updatedAt;
 }

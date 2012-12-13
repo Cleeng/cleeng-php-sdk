@@ -29,8 +29,6 @@ class Cleeng_Entity_EventOffer extends Cleeng_Entity_Base
 
     protected $description;
 
-    protected $socialCommissionEnabled;
-
     protected $socialCommissionRate;
 
     protected $contentType;
@@ -39,21 +37,27 @@ class Cleeng_Entity_EventOffer extends Cleeng_Entity_Base
 
     protected $contentExternalData;
 
+    protected $contentAgeRestriction;
+
     protected $tags;
 
     protected $publisherId;
 
     protected $active;
 
-    protected $eventStartTime;
+    protected $startTime;
 
-    protected $eventEndTime;
+    protected $endTime;
 
-    protected $eventRemainderEmailActivated;
+    protected $remainderEmailActivated;
 
-    protected $eventRemainderEmailBody;
+    protected $remainderEmailBody;
 
-    protected $eventVideoOnDemand;
+    protected $videoOnDemand;
 
-    protected $eventVideoOnDemandRentalPeriod;
+    protected $videoOnDemandRentalPeriod;
+
+    protected $createdAt;
+
+    protected $updatedAt;
 }

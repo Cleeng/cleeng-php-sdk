@@ -21,6 +21,8 @@ class Cleeng_Entity_SingleOffer extends Cleeng_Entity_Base
 
     protected $price;
 
+    protected $applicableTaxRate;
+
     protected $title;
 
     protected $currency;

@@ -21,6 +21,8 @@ class Cleeng_Entity_EventOffer extends Cleeng_Entity_Base
 
     protected $price;
 
+    protected $applicableTaxRate;
+
     protected $title;
 
     protected $currency;

@@ -21,6 +21,8 @@ class Cleeng_Entity_RentalOffer extends Cleeng_Entity_Base
 
     protected $price;
 
+    protected $applicableTaxRate;
+
     protected $title;
 
     protected $period;

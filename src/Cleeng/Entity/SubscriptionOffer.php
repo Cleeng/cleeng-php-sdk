@@ -19,6 +19,8 @@ class Cleeng_Entity_SubscriptionOffer extends Cleeng_Entity_Base
 
     protected $price;
 
+    protected $applicableTaxRate;
+
     protected $title;
 
     protected $currency;

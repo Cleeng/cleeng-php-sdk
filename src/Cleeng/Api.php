@@ -690,7 +690,7 @@ class Cleeng_Api
                 'offerData' => $offerData,
                 'localizedData' => $localizedData,
             ),
-            new Cleeng_Entity_Base()
+            new Cleeng_Entity_MultiCurrencyOffer()
         );
     }
 
@@ -717,7 +717,7 @@ class Cleeng_Api
                 'offerData' => $offerData,
                 'localizedData' => $localizedData,
             ),
-            new Cleeng_Entity_Base()
+            new Cleeng_Entity_MultiCurrencyOffer()
         );
     }
 
@@ -848,7 +848,7 @@ class Cleeng_Api
                 'offerData' => $offerData,
                 'localizedData' => $localizedData,
             ),
-            new Cleeng_Entity_Base()
+            new Cleeng_Entity_MultiCurrencyOffer()
         );
     }
 
@@ -875,7 +875,7 @@ class Cleeng_Api
                 'offerData' => $offerData,
                 'localizedData' => $localizedData,
             ),
-            new Cleeng_Entity_Base()
+            new Cleeng_Entity_MultiCurrencyOffer()
         );
     }
 
@@ -1006,7 +1006,7 @@ class Cleeng_Api
                 'offerData' => $offerData,
                 'localizedData' => $localizedData,
             ),
-            new Cleeng_Entity_Base()
+            new Cleeng_Entity_MultiCurrencyOffer()
         );
     }
 
@@ -1033,7 +1033,7 @@ class Cleeng_Api
                 'offerData' => $offerData,
                 'localizedData' => $localizedData,
             ),
-            new Cleeng_Entity_Base()
+            new Cleeng_Entity_MultiCurrencyOffer()
         );
     }
 
@@ -1165,7 +1165,7 @@ class Cleeng_Api
                 'offerData' => $offerData,
                 'localizedData' => $localizedData,
             ),
-            new Cleeng_Entity_Base()
+            new Cleeng_Entity_MultiCurrencyOffer()
         );
     }
 

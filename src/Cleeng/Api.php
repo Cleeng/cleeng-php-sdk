@@ -590,6 +590,7 @@ class Cleeng_Api
         return $this->api(
             'listSingleOffers',
             array(
+                'publisherToken' => $this->getPublisherToken(),
                 'criteria' => $criteria,
                 'offset' => $offset,
                 'limit' => $limit,
@@ -748,6 +749,7 @@ class Cleeng_Api
         return $this->api(
             'listRentalOffers',
             array(
+                'publisherToken' => $this->getPublisherToken(),
                 'criteria' => $criteria,
                 'offset' => $offset,
                 'limit' => $limit,
@@ -906,6 +908,7 @@ class Cleeng_Api
         return $this->api(
             'listEventOffers',
             array(
+                'publisherToken' => $this->getPublisherToken(),
                 'criteria' => $criteria,
                 'offset' => $offset,
                 'limit' => $limit,
@@ -1065,6 +1068,7 @@ class Cleeng_Api
         return $this->api(
             'listSubscriptionOffers',
             array(
+                'publisherToken' => $this->getPublisherToken(),
                 'criteria' => $criteria,
                 'offset' => $offset,
                 'limit' => $limit,

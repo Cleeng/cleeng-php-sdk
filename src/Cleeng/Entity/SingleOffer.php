@@ -21,6 +21,8 @@ class Cleeng_Entity_SingleOffer extends Cleeng_Entity_Base
 
     protected $price;
 
+    protected $applicableTaxRate;
+
     protected $title;
 
     protected $currency;
@@ -28,8 +30,6 @@ class Cleeng_Entity_SingleOffer extends Cleeng_Entity_Base
     protected $country;
 
     protected $description;
-
-    protected $socialCommissionEnabled;
 
     protected $socialCommissionRate;
 
@@ -39,9 +39,15 @@ class Cleeng_Entity_SingleOffer extends Cleeng_Entity_Base
 
     protected $contentExternalData;
 
+    protected $contentAgeRestriction;
+
     protected $tags;
 
     protected $publisherId;
 
     protected $active;
+
+    protected $createdAt;
+
+    protected $updatedAt;
 }

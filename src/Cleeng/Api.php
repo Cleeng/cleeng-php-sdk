@@ -25,7 +25,7 @@ class Cleeng_Api
     /**
      * Cleeng Javascript library for Cleeng Sandbox
      */
-    const SANDBOX_JSAPI_URL  = 'https://sandbox.cleeng.com/js-api/3.0/api.js';
+    const SANDBOX_JSAPI_URL  = 'http://sandbox.cleeng.com/js-api/3.0/api.js';
 
     /**
      * API endpoint - by default points to live platform
@@ -37,7 +37,7 @@ class Cleeng_Api
     /**
      * Cleeng Javascript library URL
      */
-    protected $jsApiUrl = 'https://d2089qbisawq08.cloudfront.net/js-api/3.0/api.js';
+    protected $jsApiUrl = 'http://cdn.cleeng.com/js-api/3.0/api.js';
 
     /**
      * Transport class used to communicate with Cleeng servers
@@ -116,10 +116,10 @@ class Cleeng_Api
      *
      * @param string $method
      * @param array $params
-     * @param Cleeng_Entity_Base $objectToPopuplate
+     * @param Cleeng_Entity_Base $objectToPopulate
      * @return Cleeng_Entity_Base
      */
-    public function api($method, $params = array(), $objectToPopuplate = null)
+    public function api($method, $params = array(), $objectToPopulate = null)
     {
         $id = count($this->pendingCalls)+1;
         $payload = json_encode(
@@ -131,12 +131,12 @@ class Cleeng_Api
             )
         );
 
-        if (null === $objectToPopuplate) {
-            $objectToPopuplate = new Cleeng_Entity_Base();
+        if (null === $objectToPopulate) {
+            $objectToPopulate = new Cleeng_Entity_Base();
         }
 
         $this->pendingCalls[$id] = array(
-            'entity' => $objectToPopuplate,
+            'entity' => $objectToPopulate,
             'payload' => $payload
         );
 
@@ -145,7 +145,7 @@ class Cleeng_Api
             $this->commit();
         }
 
-        return $objectToPopuplate;
+        return $objectToPopulate;
     }
 
     /**
@@ -564,6 +564,25 @@ class Cleeng_Api
     }
 
     /**
+     * Publisher API: getPublisherEmail
+     *
+     * Converts publisher ID to his e-mail address.
+     *
+     * returns Cleeng_Entity_PublisherEmail
+     *
+     * @param $publisherId
+     * @return Cleeng_Entity_Base
+     */
+    public function getPublisherEmail($publisherId)
+    {
+        return $this->api(
+            'getPublisherEmail',
+            array('publisherId' => $publisherId),
+            new Cleeng_Entity_PublisherEmail()
+        );
+    }
+
+    /**
      * Single Offer API: getSingleOffer
      *
      * @param string $offerId
@@ -590,6 +609,7 @@ class Cleeng_Api
         return $this->api(
             'listSingleOffers',
             array(
+                'publisherToken' => $this->getPublisherToken(),
                 'criteria' => $criteria,
                 'offset' => $offset,
                 'limit' => $limit,
@@ -690,7 +710,7 @@ class Cleeng_Api
                 'offerData' => $offerData,
                 'localizedData' => $localizedData,
             ),
-            new Cleeng_Entity_Base()
+            new Cleeng_Entity_MultiCurrencyOffer()
         );
     }
 
@@ -717,7 +737,7 @@ class Cleeng_Api
                 'offerData' => $offerData,
                 'localizedData' => $localizedData,
             ),
-            new Cleeng_Entity_Base()
+            new Cleeng_Entity_MultiCurrencyOffer()
         );
     }
 
@@ -748,6 +768,7 @@ class Cleeng_Api
         return $this->api(
             'listRentalOffers',
             array(
+                'publisherToken' => $this->getPublisherToken(),
                 'criteria' => $criteria,
                 'offset' => $offset,
                 'limit' => $limit,
@@ -848,7 +869,7 @@ class Cleeng_Api
                 'offerData' => $offerData,
                 'localizedData' => $localizedData,
             ),
-            new Cleeng_Entity_Base()
+            new Cleeng_Entity_MultiCurrencyOffer()
         );
     }
 
@@ -875,7 +896,7 @@ class Cleeng_Api
                 'offerData' => $offerData,
                 'localizedData' => $localizedData,
             ),
-            new Cleeng_Entity_Base()
+            new Cleeng_Entity_MultiCurrencyOffer()
         );
     }
 
@@ -906,6 +927,7 @@ class Cleeng_Api
         return $this->api(
             'listEventOffers',
             array(
+                'publisherToken' => $this->getPublisherToken(),
                 'criteria' => $criteria,
                 'offset' => $offset,
                 'limit' => $limit,
@@ -1006,7 +1028,7 @@ class Cleeng_Api
                 'offerData' => $offerData,
                 'localizedData' => $localizedData,
             ),
-            new Cleeng_Entity_Base()
+            new Cleeng_Entity_MultiCurrencyOffer()
         );
     }
 
@@ -1033,7 +1055,7 @@ class Cleeng_Api
                 'offerData' => $offerData,
                 'localizedData' => $localizedData,
             ),
-            new Cleeng_Entity_Base()
+            new Cleeng_Entity_MultiCurrencyOffer()
         );
     }
 
@@ -1065,6 +1087,7 @@ class Cleeng_Api
         return $this->api(
             'listSubscriptionOffers',
             array(
+                'publisherToken' => $this->getPublisherToken(),
                 'criteria' => $criteria,
                 'offset' => $offset,
                 'limit' => $limit,
@@ -1165,7 +1188,7 @@ class Cleeng_Api
                 'offerData' => $offerData,
                 'localizedData' => $localizedData,
             ),
-            new Cleeng_Entity_Base()
+            new Cleeng_Entity_MultiCurrencyOffer()
         );
     }
 

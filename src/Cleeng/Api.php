@@ -364,6 +364,24 @@ class Cleeng_Api
     }
 
     /**
+     * @param int $batchMode
+     * @return Cleeng_Api provides fluent interface
+     */
+    public function setBatchMode($batchMode)
+    {
+        $this->batchMode = $batchMode;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getBatchMode()
+    {
+        return $this->batchMode;
+    }
+
+    /**
      * Customer API: getCustomer
      *
      * @return Cleeng_Entity_Customer

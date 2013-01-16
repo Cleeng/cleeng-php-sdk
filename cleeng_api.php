@@ -26,6 +26,7 @@ foreach (array(
             'Entity/Collection.php',
             'Entity/CustomerRental.php',
             'Entity/RentalOffer.php',
+            'Entity/EventOffer.php',
             'Entity/Publisher.php',
             'Entity/CustomerSubscription.php',
             'Entity/OperationStatus.php',

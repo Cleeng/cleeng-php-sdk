@@ -30,6 +30,63 @@ class Cleeng_Transport_Curl extends Cleeng_Transport_AbstractTransport
     private $lastUrl;
 
     /**
+     * Default options for curl
+     * @var array
+     */
+    private $defaultCurlOptions = array(
+        CURLOPT_POST => 1,
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_FOLLOWLOCATION => 0,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => true,
+        CURLOPT_CONNECTTIMEOUT => 10,
+    );
+
+    /**
+     * Current options for curl
+     * @var array
+     */
+    private $curlOptions = array();
+
+    /**
+     * Create curl handle and inject options
+     *
+     * @param $url
+     * @return resource
+     */
+    private function getCurlHandle($url)
+    {
+        if (null == $this->curlHandle || $url != $this->lastUrl) {
+            $this->curlHandle = curl_init($url);
+            curl_setopt_array($this->curlHandle, $this->curlOptions);
+        }
+
+        return $this->curlHandle;
+    }
+
+    /**
+     * Class constructor
+     */
+    public function __construct()
+    {
+        // initialize curl options variable
+        $this->curlOptions = $this->defaultCurlOptions;
+    }
+
+    /**
+     * Override/add options to curl handle
+     *
+     * @param array $options
+     * @return Cleeng_Transport_Curl
+     */
+    public function setCurlOptions(array $options)
+    {
+        $this->curlOptions = $this->defaultCurlOptions + $options;
+        $this->curlHandle = null;
+        return $this;
+    }
+
+    /**
      * Send data to API endpoint using CURL
      *
      * @param $url
@@ -39,26 +96,13 @@ class Cleeng_Transport_Curl extends Cleeng_Transport_AbstractTransport
      */
     public function call($url, $data)
     {
-        if (null == $this->curlHandle || $url != $this->lastUrl) {
-            $this->curlHandle = curl_init($url);
-        }
-
-        $ch = $this->curlHandle;
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
-
-        /**
-         * TODO: Validate certificate
-         */
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 1);
+        $ch = $this->getCurlHandle($url);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $buffer = curl_exec($ch);
 
-        $err = curl_errno($ch);
-        if ($err != 0) {
-            throw new Cleeng_Exception_HttpErrorException("cURL error ($err): " . curl_error($ch));
+        $errno = curl_errno($ch);
+        if ($errno != 0) {
+            throw new Cleeng_Exception_HttpErrorException("cURL error ($errno): " . curl_error($ch));
         }
 
         $apiResponseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);

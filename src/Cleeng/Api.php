@@ -393,6 +393,26 @@ class Cleeng_Api
     }
 
     /**
+     * Customer API: getCustomerEmail
+     *
+     * @return Cleeng_Entity_CustomerEmail
+     */
+    public function getCustomeEmailr()
+    {
+        $customerEmail = new Cleeng_Entity_CustomerEmail();
+        return $this->api(
+            'getCustomerEmail',
+            array(
+                'publisherToken' => $this->getPublisherToken(),
+                'customerToken' => $this->getCustomerToken()
+            ),
+            $customerEmail
+        );
+    }
+
+
+
+    /**
      * Customer API: trackOfferImpression
      *
      * @param $offerId

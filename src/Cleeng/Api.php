@@ -397,7 +397,7 @@ class Cleeng_Api
      *
      * @return Cleeng_Entity_CustomerEmail
      */
-    public function getCustomeEmailr()
+    public function getCustomeEmail()
     {
         $customerEmail = new Cleeng_Entity_CustomerEmail();
         return $this->api(
@@ -1354,6 +1354,139 @@ class Cleeng_Api
         }
         return $this->api(
             'createMultiCurrencyPassOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerData' => $offerData,
+                'localizedData' => $localizedData,
+            ),
+            new Cleeng_Entity_MultiCurrencyOffer()
+        );
+    }
+
+    /**
+     * Bundle Offer API: getBundleOffer
+     *
+     * @param string $offerId
+     * @return Cleeng_Entity_BundleOffer
+     */
+    public function getBundleOffer($offerId)
+    {
+        $offer = new Cleeng_Entity_BundleOffer();
+        return $this->api('getBundleOffer', array('offerId' => $offerId), $offer);
+    }
+
+
+    /**
+     * Bundle Offer API: listBundleOffers
+     *
+     * @param array $criteria
+     * @param int $offset
+     * @param int $limit
+     *
+     * @return Cleeng_Entity_Collection
+     */
+    public function listBundleOffers($criteria = array(), $offset = 1, $limit = 20)
+    {
+        $collection = new Cleeng_Entity_Collection('Cleeng_Entity_BundleOffer');
+        return $this->api(
+            'listBundleOffers',
+            array(
+                'publisherToken' => $this->getPublisherToken(),
+                'criteria' => $criteria,
+                'offset' => $offset,
+                'limit' => $limit,
+            ),
+            $collection
+        );
+    }
+
+    /**
+     * Bundle Offer API: createBundleOffer
+     *
+     * @param array $offerData
+     * @return Cleeng_Entity_BundleOffer
+     * @throws Cleeng_Exception_RuntimeException
+     */
+    public function createBundleOffer($offerData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'createBundleOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerData' => $offerData
+            ),
+            new Cleeng_Entity_BundleOffer()
+        );
+    }
+
+    /**
+     * Bundle Offer API: updateBundleOffer
+     *
+     * @param string $offerId
+     * @param array $offerData
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_BundleOffer
+     */
+    public function updateBundleOffer($offerId, $offerData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'updateBundleOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerId' => $offerId,
+                'offerData' => $offerData,
+            ),
+            new Cleeng_Entity_BundleOffer()
+        );
+    }
+
+    /**
+     * Bundle Offer API: deactivateBundleOffer
+     *
+     * @param string $offerId
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_PassOffer
+     */
+    public function deactivateBundleOffer($offerId)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'deactivateBundleOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerId' => $offerId,
+            ),
+            new Cleeng_Entity_BundleOffer()
+        );
+    }
+
+    /**
+     * Bundle Offer API: createMultiCurrencyBundleOffer
+     *
+     * @param array $offerData
+     * @param $localizedData
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_MultiCurrencyOffer
+     */
+    public function createMultiCurrencyBundleOffer($offerData, $localizedData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'createMultiCurrencyBundleOffer',
             array(
                 'publisherToken' => $publisherToken,
                 'offerData' => $offerData,

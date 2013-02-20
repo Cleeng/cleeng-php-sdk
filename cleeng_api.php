@@ -30,6 +30,7 @@ foreach (array(
             'Entity/Publisher.php',
             'Entity/CustomerSubscription.php',
             'Entity/OperationStatus.php',
+            'Entity/PassOffer.php',
             'Entity/SubscriptionOffer.php',
             'Entity/AccessStatus.php',
             'Exception/ExceptionInterface.php',

@@ -1138,7 +1138,7 @@ class Cleeng_Api
      * Subscription Offer API: createSubscriptionOffer
      *
      * @param array $offerData
-     * @return Cleeng_Entity_SingleOffer
+     * @return Cleeng_Entity_SubscriptionOffer
      * @throws Cleeng_Exception_RuntimeException
      */
     public function createSubscriptionOffer($offerData)
@@ -1211,7 +1211,7 @@ class Cleeng_Api
      * @param array $offerData
      * @param $localizedData
      * @throws Cleeng_Exception_RuntimeException
-     * @return Cleeng_Entity_SubscriptionOffer
+     * @return Cleeng_Entity_MultiCurrencyOffer
      */
     public function createMultiCurrencySubscriptionOffer($offerData, $localizedData)
     {
@@ -1221,6 +1221,139 @@ class Cleeng_Api
         }
         return $this->api(
             'createMultiCurrencySubscriptionOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerData' => $offerData,
+                'localizedData' => $localizedData,
+            ),
+            new Cleeng_Entity_MultiCurrencyOffer()
+        );
+    }
+
+    /**
+     * Pass Offer API: getPassOffer
+     *
+     * @param string $offerId
+     * @return Cleeng_Entity_PassOffer
+     */
+    public function getPassOffer($offerId)
+    {
+        $offer = new Cleeng_Entity_PassOffer();
+        return $this->api('getPassOffer', array('offerId' => $offerId), $offer);
+    }
+
+
+    /**
+     * Pass Offer API: listPassOffers
+     *
+     * @param array $criteria
+     * @param int $offset
+     * @param int $limit
+     *
+     * @return Cleeng_Entity_Collection
+     */
+    public function listPassOffers($criteria = array(), $offset = 1, $limit = 20)
+    {
+        $collection = new Cleeng_Entity_Collection('Cleeng_Entity_PassOffer');
+        return $this->api(
+            'listPassOffers',
+            array(
+                'publisherToken' => $this->getPublisherToken(),
+                'criteria' => $criteria,
+                'offset' => $offset,
+                'limit' => $limit,
+            ),
+            $collection
+        );
+    }
+
+    /**
+     * Pass Offer API: createPassOffer
+     *
+     * @param array $offerData
+     * @return Cleeng_Entity_PassOffer
+     * @throws Cleeng_Exception_RuntimeException
+     */
+    public function createPassOffer($offerData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'createPassOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerData' => $offerData
+            ),
+            new Cleeng_Entity_PassOffer()
+        );
+    }
+
+    /**
+     * Pass Offer API: updatePassOffer
+     *
+     * @param string $offerId
+     * @param array $offerData
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_PassOffer
+     */
+    public function updatePassOffer($offerId, $offerData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'updatePassOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerId' => $offerId,
+                'offerData' => $offerData,
+            ),
+            new Cleeng_Entity_PassOffer()
+        );
+    }
+
+    /**
+     * Pass Offer API: deactivatePassOffer
+     *
+     * @param string $offerId
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_PassOffer
+     */
+    public function deactivatePassOffer($offerId)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'deactivatePassOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerId' => $offerId,
+            ),
+            new Cleeng_Entity_PassOffer()
+        );
+    }
+
+    /**
+     * Pass Offer API: createMultiCurrencyPassOffer
+     *
+     * @param array $offerData
+     * @param $localizedData
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_MultiCurrencyOffer
+     */
+    public function createMultiCurrencyPassOffer($offerData, $localizedData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'createMultiCurrencyPassOffer',
             array(
                 'publisherToken' => $publisherToken,
                 'offerData' => $offerData,

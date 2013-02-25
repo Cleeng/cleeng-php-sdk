@@ -10,7 +10,7 @@
  */
 
 /**
- * @link http://cleeng.com/open/v3/Reference/Subscription_API
+ * @link http://cleeng.com/open/v3/Reference/Subscription_Offer_API
  */
 class Cleeng_Entity_SubscriptionOffer extends Cleeng_Entity_Base
 {

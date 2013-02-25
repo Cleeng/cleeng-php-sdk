@@ -19,6 +19,7 @@ foreach (array(
             'Api.php',
             'Entity/Base.php',
             'Entity/Customer.php',
+            'Entity/BundleOffer.php',
             'Entity/SingleOffer.php',
             'Entity/RemoteAuth.php',
             'Entity/CustomerToken.php',

@@ -397,7 +397,7 @@ class Cleeng_Api
      *
      * @return Cleeng_Entity_CustomerEmail
      */
-    public function getCustomeEmail()
+    public function getCustomerEmail()
     {
         $customerEmail = new Cleeng_Entity_CustomerEmail();
         return $this->api(

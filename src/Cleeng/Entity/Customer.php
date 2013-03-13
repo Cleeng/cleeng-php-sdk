@@ -19,7 +19,11 @@ class Cleeng_Entity_Customer extends Cleeng_Entity_Base
 
     protected $id;
 
-    protected $name;
+    protected $displayName;
+
+    protected $firstName;
+
+    protected $lastName;
 
     protected $currency;
 

@@ -37,8 +37,8 @@ class Cleeng_Transport_Curl extends Cleeng_Transport_AbstractTransport
         CURLOPT_POST => 1,
         CURLOPT_RETURNTRANSFER => 1,
         CURLOPT_FOLLOWLOCATION => 0,
-        CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_SSL_VERIFYHOST => true,
+        CURLOPT_SSL_VERIFYPEER => 0,
+        CURLOPT_SSL_VERIFYHOST => 2,
         CURLOPT_CONNECTTIMEOUT => 10,
     );
 
@@ -81,7 +81,10 @@ class Cleeng_Transport_Curl extends Cleeng_Transport_AbstractTransport
      */
     public function setCurlOptions(array $options)
     {
-        $this->curlOptions = $this->defaultCurlOptions + $options;
+        $this->curlOptions = $this->defaultCurlOptions;
+        foreach ($options as $key => $value) {
+            $this->curlOptions[$key] = $value;
+        }
         $this->curlHandle = null;
         return $this;
     }

@@ -175,7 +175,7 @@ class Cleeng_ApiTest extends PHPUnit_Framework_TestCase
     {
         $transport = $this->getMock('Cleeng_Transport_AbstractTransport', array('call'));
         $transport->expects($this->once())->method('call')
-            ->will($this->returnValue('[{"result":{"id":"A285380620_FR","publisherEmail":"publisher@something.com","url":"http:\/\/something.com","title":"Lorem Ipsum Dolor","description":"","currency":"EUR","socialCommissionEnabled":false,"socialCommissionRate":"0.00","contentType":"article","contentExternalId":0,"contentExternalData":null,"averageRating":4,"contentAgeRestriction":0,"active":true,"createdAt":1353340324,"updatedAt":1353340324,"price":0.99,"tags":[]},"id":"1","error":null,"jsonrpc":"2.0"}]'));
+            ->will($this->returnValue('[{"result":{"id":"A285380620_FR","publisherEmail":"publisher@something.com","url":"http:\/\/something.com","title":"Lorem Ipsum Dolor","description":"","currency":"EUR","socialCommissionRate":"","socialCommissionRate":"0.00","contentType":"article","contentExternalId":0,"contentExternalData":null,"averageRating":4,"contentAgeRestriction":0,"active":true,"createdAt":1353340324,"updatedAt":1353340324,"price":0.99,"tags":[]},"id":"1","error":null,"jsonrpc":"2.0"}]'));
 
         $api = new Cleeng_Api();
         $api->setTransport($transport);
@@ -196,7 +196,7 @@ class Cleeng_ApiTest extends PHPUnit_Framework_TestCase
     {
         $transport = $this->getMock('Cleeng_Transport_AbstractTransport', array('call'));
         $transport->expects($this->once())->method('call')
-            ->will($this->returnValue('[{"result":{"id":"A285380620_FR","publisherEmail":"publisher@something.com","url":"http:\/\/something.com","title":"New title","description":"","currency":"EUR","socialCommissionEnabled":false,"socialCommissionRate":"0.00","contentType":"article","contentExternalId":0,"contentExternalData":null,"averageRating":4,"contentAgeRestriction":0,"active":true,"createdAt":1353340324,"updatedAt":1353340324,"price":0.99,"tags":[]},"id":"1","error":null,"jsonrpc":"2.0"}]'));
+            ->will($this->returnValue('[{"result":{"id":"A285380620_FR","publisherEmail":"publisher@something.com","url":"http:\/\/something.com","title":"New title","description":"","currency":"EUR","socialCommissionRate":"","socialCommissionRate":"0.00","contentType":"article","contentExternalId":0,"contentExternalData":null,"averageRating":4,"contentAgeRestriction":0,"active":true,"createdAt":1353340324,"updatedAt":1353340324,"price":0.99,"tags":[]},"id":"1","error":null,"jsonrpc":"2.0"}]'));
 
         $api = new Cleeng_Api();
         $api->setTransport($transport);

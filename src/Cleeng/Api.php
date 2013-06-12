@@ -166,16 +166,19 @@ class Cleeng_Api
         $decodedResponse = json_decode($raw, true);
 
         if (!is_array($decodedResponse)) {
+            $this->pendingCalls = array();
             throw new Cleeng_Exception_InvalidJsonException("Expected valid JSON string, received: $raw");
         }
 
         if (!count($decodedResponse)) {
+            $this->pendingCalls = array();
             throw new Cleeng_Exception_InvalidJsonException("Empty response received.");
         }
 
         foreach ($decodedResponse as $response) {
 
             if (!isset($response['id'])) {
+                $this->pendingCalls = array();
                 throw new Cleeng_Exception_RuntimeException("Invalid response from API - missing JSON-RPC ID.");
             }
 
@@ -184,6 +187,7 @@ class Cleeng_Api
                 $transferObject->pending = false;
 
                 if ($response['error']) {
+                    $this->pendingCalls = array();
                     throw new Cleeng_Exception_ApiErrorException($response['error']['message']);
                 } else {
                     if (!is_array($response['result'])) {

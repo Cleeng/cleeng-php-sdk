@@ -20,4 +20,5 @@ class Cleeng_Entity_MultiCurrencyOffer extends Cleeng_Entity_Base
 
     protected $multiCurrencyOfferId;
 
+    protected $offers;
 }

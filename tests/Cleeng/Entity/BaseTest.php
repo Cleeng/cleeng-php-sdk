@@ -31,5 +31,14 @@ class Cleeng_Entity_BaseTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Something', $entity->title);
     }
 
+    public function testIsset()
+    {
+        $entity = new Cleeng_TestEntity();
+        $entity->populate(array('id' => 99, 'title' => 'Something'));
+        $this->assertTrue(isset($entity->id));
+        $this->assertTrue(isset($entity->title));
+        $this->assertFalse(isset($entity->nonExistingProperty));
+    }
+
 
 }

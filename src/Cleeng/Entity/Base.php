@@ -81,4 +81,19 @@ class Cleeng_Entity_Base
         $this->$property = $value;
     }
 
+    /**
+     * __isset() magic method
+     *
+     * @param $property
+     * @throws Cleeng_Exception_RuntimeException
+     * @return bool
+     */
+    public function __isset($property)
+    {
+        if ($this->pending) {
+            throw new Cleeng_Exception_RuntimeException("Object is not received from API yet.");
+        }
+        return isset($this->$property);
+    }
+
 }

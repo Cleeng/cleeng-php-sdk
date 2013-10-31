@@ -17,23 +17,21 @@ class Cleeng_Entity_EventOffer extends Cleeng_Entity_Base
 
     protected $id;
 
+    protected $publisherEmail;
+
     protected $url;
+
+    protected $title;
+
+    protected $description;
 
     protected $price;
 
     protected $applicableTaxRate;
 
-    protected $title;
-
     protected $currency;
 
-    protected $country;
-
-    protected $description;
-
     protected $socialCommissionRate;
-
-    protected $contentType;
 
     protected $contentExternalId;
 
@@ -42,8 +40,6 @@ class Cleeng_Entity_EventOffer extends Cleeng_Entity_Base
     protected $contentAgeRestriction;
 
     protected $tags;
-
-    protected $publisherId;
 
     protected $active;
 

@@ -17,9 +17,7 @@ class Cleeng_Entity_BundleOffer extends Cleeng_Entity_Base
 
     protected $id;
 
-    protected $price;
-
-    protected $applicableTaxRate;
+    protected $publisherEmail;
 
     protected $url;
 
@@ -27,22 +25,20 @@ class Cleeng_Entity_BundleOffer extends Cleeng_Entity_Base
 
     protected $description;
 
-    protected $socialCommissionRate;
+    protected $period;
+
+    protected $price;
+
+    protected $applicableTaxRate;
 
     protected $currency;
-
-    protected $country;
-
-    protected $offerIdList;
-
-    protected $publisherId;
-
-    protected $period;
 
     protected $active;
 
     protected $createdAt;
 
     protected $updatedAt;
+
+    protected $offerIdList;
 
 }

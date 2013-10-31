@@ -14,22 +14,21 @@
  */
 class Cleeng_Entity_SingleOffer extends Cleeng_Entity_Base
 {
-
     protected $id;
 
+    protected $publisherEmail;
+
     protected $url;
+
+    protected $title;
+
+    protected $description;
 
     protected $price;
 
     protected $applicableTaxRate;
 
-    protected $title;
-
     protected $currency;
-
-    protected $country;
-
-    protected $description;
 
     protected $socialCommissionRate;
 
@@ -42,8 +41,6 @@ class Cleeng_Entity_SingleOffer extends Cleeng_Entity_Base
     protected $contentAgeRestriction;
 
     protected $tags;
-
-    protected $publisherId;
 
     protected $active;
 

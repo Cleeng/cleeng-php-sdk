@@ -17,21 +17,29 @@ class Cleeng_Entity_PassOffer extends Cleeng_Entity_Base
 
     protected $id;
 
+    protected $publisherEmail;
+
+    protected $url;
+
+    protected $title;
+
+    protected $description;
+
+    protected $period;
+
+    protected $expiresAt;
+
     protected $price;
 
     protected $applicableTaxRate;
 
-    protected $title;
-
     protected $currency;
 
-    protected $country;
-
-    protected $appliedOnTags;
-
-    protected $publisherId;
-
-    protected $period;
+    protected $accessToTags;
 
     protected $active;
+
+    protected $createdAt;
+
+    protected $updatedAt;
 }

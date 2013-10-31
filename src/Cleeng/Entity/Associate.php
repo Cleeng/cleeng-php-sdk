@@ -25,8 +25,6 @@ class Cleeng_Entity_Associate extends Cleeng_Entity_Base
 
     protected $country;
 
-    protected $licenseType;
-
     protected $firstName;
 
     protected $lastName;
@@ -34,5 +32,7 @@ class Cleeng_Entity_Associate extends Cleeng_Entity_Base
     protected $siteName;
 
     protected $publisherData;
+
+    protected $licenseType;
 
 }

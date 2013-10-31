@@ -17,21 +17,21 @@ class Cleeng_Entity_RentalOffer extends Cleeng_Entity_Base
 
     protected $id;
 
+    protected $publisherEmail;
+
     protected $url;
+
+    protected $title;
+
+    protected $description;
 
     protected $price;
 
     protected $applicableTaxRate;
 
-    protected $title;
-
     protected $period;
 
     protected $currency;
-
-    protected $country;
-
-    protected $description;
 
     protected $socialCommissionRate;
 
@@ -44,8 +44,6 @@ class Cleeng_Entity_RentalOffer extends Cleeng_Entity_Base
     protected $contentAgeRestriction;
 
     protected $tags;
-
-    protected $publisherId;
 
     protected $active;
 

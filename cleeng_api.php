@@ -28,7 +28,6 @@ foreach (array(
             'Entity/CustomerRental.php',
             'Entity/CustomerEmail.php',
             'Entity/RentalOffer.php',
-            'Entity/EventOffer.php',
             'Entity/Publisher.php',
             'Entity/CustomerSubscription.php',
             'Entity/OperationStatus.php',

@@ -2,7 +2,6 @@
     "name": "cleeng/cleeng-php-sdk",
     "description": "PHP SDK for Cleeng API",
     "license": "BSD-3-Clause",
-    "version": "3.0.0",
     "keywords": [
         "cleeng",
         "api",

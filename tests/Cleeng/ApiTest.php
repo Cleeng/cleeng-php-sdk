@@ -23,6 +23,25 @@ class Cleeng_ApiTest extends PHPUnit_Framework_TestCase
         $this->api = new Cleeng_Api();
     }
 
+    public function testCustomerTokenIsMutable()
+    {
+        $this->api->setCustomerToken('XXXXXXXXXXXXXXXXXXXX');
+        $this->assertEquals('XXXXXXXXXXXXXXXXXXXX', $this->api->getCustomerToken());
+    }
+
+    public function testGetCustomerTokenCanLoadTokenFromCookie()
+    {
+        $_COOKIE['CleengClientAccessToken'] = 'TOKEN_FROM_COOKIE';
+        $this->assertEquals('TOKEN_FROM_COOKIE', $this->api->getCustomerToken());
+    }
+
+    public function testGetCustomerTokenCanLoadTokenFromQuery()
+    {
+        $_COOKIE['CleengClientAccessToken'] = null;
+        $_GET['CleengClientAccessToken'] = 'TOKEN_FROM_QUERY';
+        $this->assertEquals('TOKEN_FROM_QUERY', $this->api->getCustomerToken());
+    }
+
     public function testApiPopulatesEntity()
     {
         $entity = new Cleeng_TestEntity();

@@ -205,7 +205,7 @@ class Cleeng_Api
 
     /**
      * @param string $endpoint
-     * @return Cleeng_Api provides fluent interface
+     * @return self
      */
     public function setEndpoint($endpoint)
     {
@@ -243,7 +243,7 @@ class Cleeng_Api
 
     /**
      * @param \Cleeng_Transport_AbstractTransport $transport
-     * @return Cleeng_Api provides fluent interface
+     * @return self
      */
     public function setTransport($transport)
     {
@@ -300,7 +300,7 @@ class Cleeng_Api
      * Set customer's token
      *
      * @param string $customerToken
-     * @return Cleeng_Client provides fluent interface
+     * @return self
      */
     public function setCustomerToken($customerToken)
     {
@@ -328,7 +328,7 @@ class Cleeng_Api
      * Set publisher's token
      *
      * @param string $publisherToken
-     * @return Cleeng_Client provides fluent interface
+     * @return self
      */
     public function setPublisherToken($publisherToken)
     {
@@ -349,7 +349,7 @@ class Cleeng_Api
      * Set distributor's token
      *
      * @param string $distributorToken
-     * @return Cleeng_Client provides fluent interface
+     * @return self
      */
     public function setDistributorToken($distributorToken)
     {
@@ -369,7 +369,7 @@ class Cleeng_Api
 
     /**
      * @param int $batchMode
-     * @return Cleeng_Api provides fluent interface
+     * @return self
      */
     public function setBatchMode($batchMode)
     {

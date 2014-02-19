@@ -319,6 +319,8 @@ class Cleeng_Api
         if (!$this->customerToken) {
             if (isset($_COOKIE[$this->cookieName])) {
                 $this->customerToken = $_COOKIE[$this->cookieName];
+            } elseif (isset($_GET[$this->cookieName])) {
+                $this->customerToken = $_GET[$this->cookieName];
             }
         }
         return $this->customerToken;

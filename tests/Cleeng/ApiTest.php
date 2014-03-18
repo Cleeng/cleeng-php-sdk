@@ -317,5 +317,27 @@ class Cleeng_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('en_US', $entity->locale);
         $this->assertEquals('US', $entity->country);
     }
+    
+    public function testListTransactions()
+    {
+        $transport = $this->getMock('Cleeng_Transport_AbstractTransport', array('call'));
+        $transport->expects($this->once())->method('call')
+            ->will($this->returnValue('[{"result":{"items":[{"transactionId":"T213142044","transactionDate":"1394807872","offerId":"S403133281_C1"}, {"transactionId":"T565125576","transactionDate":"1394636433","offerId":"S403133281_C1"}],"totalItemCount":"2"},"id":"1","error":null,"jsonrpc":"2.0"}]'));
 
+        $api = new Cleeng_Api();
+        $api->setTransport($transport);
+        $api->setPublisherToken('XXX');
+        $collection = $api->listTransactions(array('dateFrom' => '1392711484', 'dateTo' => '1395130684'), 0,5);
+
+        $this->assertInstanceOf('Cleeng_Entity_Base', $collection);
+
+        $it = $collection->getIterator();
+        $first = current($it);
+        $last = next($it);
+
+        $this->assertEquals('T213142044', $first->transactionId);
+        $this->assertEquals('S403133281_C1', $first->offerId);
+        $this->assertEquals('T565125576', $last->transactionId);
+        $this->assertEquals('S403133281_C1', $last->offerId);
+    }
 }

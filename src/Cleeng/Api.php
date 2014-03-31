@@ -608,25 +608,6 @@ class Cleeng_Api
     }
 
     /**
-     * Publisher API: getPublisherEmail
-     *
-     * Converts publisher ID to his e-mail address.
-     *
-     * returns Cleeng_Entity_PublisherEmail
-     *
-     * @param $publisherId
-     * @return Cleeng_Entity_Base
-     */
-    public function getPublisherEmail($publisherId)
-    {
-        return $this->api(
-            'getPublisherEmail',
-            array('publisherId' => $publisherId),
-            new Cleeng_Entity_PublisherEmail()
-        );
-    }
-
-    /**
      * Single Offer API: getSingleOffer
      *
      * @param string $offerId

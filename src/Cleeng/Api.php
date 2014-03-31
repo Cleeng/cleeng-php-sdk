@@ -1471,6 +1471,35 @@ class Cleeng_Api
     }
 
     /**
+     * List Transactions API: listTransactions
+     *
+     * @param array $criteria
+     * @param int $offset
+     * @param int $limit
+     *
+     * @return Cleeng_Entity_Collection
+     */
+    public function listTransactions($criteria = array(), $offset = 1, $limit = 20)
+    {
+        $collection = new Cleeng_Entity_Collection('Cleeng_Entity_Base');
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+
+        return $this->api(
+            'listTransactions',
+            array(
+                'publisherToken' => $this->getPublisherToken(),
+                'criteria' => $criteria,
+                'offset' => $offset,
+                'limit' => $limit,
+            ),
+            $collection
+        );
+    }
+
+    /**
      * Wrapper for getAccessStatus method
      *
      * @param $offerId

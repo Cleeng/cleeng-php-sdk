@@ -14,7 +14,7 @@
  *
  * @link http://cleeng.com/open/v3/Reference/Customer_API
  */
-class ListSubscriptionCouponCampaign  extends Cleeng_Entity_Base
+class Cleeng_Entity_ListSubscriptionCouponCampaign  extends Cleeng_Entity_Base
 {
 
     protected $id;

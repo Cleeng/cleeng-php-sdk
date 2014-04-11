@@ -1527,7 +1527,7 @@ class Cleeng_Api
         return $this->api(
             'createCouponCampaign',
             array('distributorToken' => $distributorToken, 'campaignData' => $campaignData),
-            new Cleeng_Entity_Associate()
+            new Cleeng_Entity_CouponCampaign()
         );
     }
 
@@ -1546,7 +1546,7 @@ class Cleeng_Api
         return $this->api(
             'createSubscriptionCouponCampaign',
             array('distributorToken' => $distributorToken, 'campaignData' => $campaignData),
-            new Cleeng_Entity_Associate()
+            new Cleeng_Entity_SubscriptionCouponCampaign()
         );
     }
 
@@ -1660,7 +1660,7 @@ class Cleeng_Api
             throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setDistributorToken must be used first.");
         }
 
-        $collection = new Cleeng_Entity_Collection('Cleeng_Entity_CouponCode');
+        $collection = new Cleeng_Entity_Collection('Cleeng_Entity_Base');
 
         return $this->api(
             'listCoupons',
@@ -1711,7 +1711,7 @@ class Cleeng_Api
         return $this->api(
             'applyCoupon',
             array(
-                'distributorToken' => $distributorToken,
+                'publisherToken' => $distributorToken,
                 'customerEmail' => $customerEmail,
                 'couponCode' => $couponCode,
                 'offerId' => $offerId,
@@ -1740,7 +1740,7 @@ class Cleeng_Api
         return $this->api(
             'grantAccessWithCoupon',
             array(
-                'distributorToken' => $distributorToken,
+                'publisherToken' => $distributorToken,
                 'customerEmail' => $customerEmail,
                 'couponCode' => $couponCode,
                 'offerId' => $offerId,

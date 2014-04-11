@@ -12,7 +12,6 @@
 /**
  * Provides information about coupon campaign.
  *
- * @link http://cleeng.com/open/v3/Reference/Customer_API
  */
 class Cleeng_Entity_CouponCampaign  extends Cleeng_Entity_Base
 {

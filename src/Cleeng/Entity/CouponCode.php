@@ -12,7 +12,6 @@
 /**
  * Provides information about coupon code.
  *
- * @link http://cleeng.com/open/v3/Reference/Customer_API
  */
 class Cleeng_Entity_CouponCode  extends Cleeng_Entity_Base
 {

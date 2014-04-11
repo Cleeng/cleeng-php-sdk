@@ -12,7 +12,6 @@
 /**
  * Provides information about list subscription coupon campaign.
  *
- * @link http://cleeng.com/open/v3/Reference/Customer_API
  */
 class Cleeng_Entity_ListSubscriptionCouponCampaign  extends Cleeng_Entity_Base
 {

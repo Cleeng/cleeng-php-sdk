@@ -44,7 +44,7 @@ foreach (array(
             'Exception/HttpErrorException.php',
             'Exception/ApiErrorException.php',
             'Exception/InvalidJsonException.php',
-            'Transport/AbstractTransport.php',
+            'Transport/TransportInterface.php',
             'Transport/Curl.php',
 
                 ) as $_cleeng_class_file) {

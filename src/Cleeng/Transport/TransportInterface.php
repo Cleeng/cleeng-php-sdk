@@ -9,15 +9,14 @@
  * @package Cleeng_PHP_SDK
  */
 
-abstract class Cleeng_Transport_AbstractTransport
+interface Cleeng_Transport_TransportInterface
 {
     /**
-     * Send data to API endpoint using CURL and return resulting string
+     * Send data to Cleeng API endpoint and return resulting string
      *
      * @param $url
      * @param $data
      * @return string
      */
-    abstract public function call($url, $data);
-
+    public function call($url, $data);
 }

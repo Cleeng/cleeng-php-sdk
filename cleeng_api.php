@@ -25,6 +25,10 @@ foreach (array(
             'Entity/CustomerToken.php',
             'Entity/Associate.php',
             'Entity/Collection.php',
+            'Entity/CouponCampaign.php',
+            'Entity/SubscriptionCouponCampaign.php',
+            'Entity/ListCouponCampaign.php',
+            'Entity/ListSubscriptionCouponCampaign.php',
             'Entity/CustomerRental.php',
             'Entity/CustomerEmail.php',
             'Entity/CustomerLibrary.php',
@@ -41,7 +45,7 @@ foreach (array(
             'Exception/HttpErrorException.php',
             'Exception/ApiErrorException.php',
             'Exception/InvalidJsonException.php',
-            'Transport/AbstractTransport.php',
+            'Transport/TransportInterface.php',
             'Transport/Curl.php',
                 ) as $_cleeng_class_file) {
 

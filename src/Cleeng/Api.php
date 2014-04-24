@@ -947,7 +947,7 @@ class Cleeng_Api
      *
      * @return Cleeng_Entity_Collection
      */
-    public function listSubscriptionOffers($criteria = array(), $offset = 1, $limit = 20)
+    public function listSubscriptionOffers($criteria = array(), $offset = 0, $limit = 20)
     {
         $collection = new Cleeng_Entity_Collection('Cleeng_Entity_SubscriptionOffer');
         return $this->api(
@@ -1109,7 +1109,7 @@ class Cleeng_Api
      *
      * @return Cleeng_Entity_Collection
      */
-    public function listPassOffers($criteria = array(), $offset = 1, $limit = 20)
+    public function listPassOffers($criteria = array(), $offset = 0, $limit = 20)
     {
         $collection = new Cleeng_Entity_Collection('Cleeng_Entity_PassOffer');
         return $this->api(
@@ -1270,7 +1270,7 @@ class Cleeng_Api
      *
      * @return Cleeng_Entity_Collection
      */
-    public function listBundleOffers($criteria = array(), $offset = 1, $limit = 20)
+    public function listBundleOffers($criteria = array(), $offset = 0, $limit = 20)
     {
         $collection = new Cleeng_Entity_Collection('Cleeng_Entity_BundleOffer');
         return $this->api(
@@ -1479,7 +1479,7 @@ class Cleeng_Api
      *
      * @return Cleeng_Entity_Collection
      */
-    public function listTransactions($criteria = array(), $offset = 1, $limit = 20)
+    public function listTransactions($criteria = array(), $offset = 0, $limit = 20)
     {
         $collection = new Cleeng_Entity_Collection('Cleeng_Entity_Base');
         $publisherToken = $this->getPublisherToken();
@@ -1494,6 +1494,33 @@ class Cleeng_Api
                 'criteria' => $criteria,
                 'offset' => $offset,
                 'limit' => $limit,
+            ),
+            $collection
+        );
+    }
+
+    /**
+     * @param array $criteria
+     * @param int $offset
+     * @param int $limit
+     * @return Cleeng_Entity_Collection
+     * @throws Cleeng_Exception_RuntimeException
+     */
+    public function listCustomerLibrary($customerEmail = null, $criteria = array(), $offset = 0, $limit = 20)
+    {
+        $collection = new Cleeng_Entity_Collection('Cleeng_Entity_CustomerLibrary');
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'listCustomerLibrary',
+            array(
+                'publisherToken' => $publisherToken,
+                'customerEmail' => $customerEmail,
+                'criteria' => $criteria,
+                'offset' => $offset,
+                'limit' => $limit
             ),
             $collection
         );

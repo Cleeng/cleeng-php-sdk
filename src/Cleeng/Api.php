@@ -1704,14 +1704,14 @@ class Cleeng_Api
      */
     public function applyCoupon($customerEmail, $couponCode, $offerId, $couponOptions = array())
     {
-        $distributorToken = $this->getDistributorToken();
-        if (!$distributorToken) {
-            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setDistributorToken must be used first.");
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
         }
         return $this->api(
             'applyCoupon',
             array(
-                'publisherToken' => $distributorToken,
+                'publisherToken' => $publisherToken,
                 'customerEmail' => $customerEmail,
                 'couponCode' => $couponCode,
                 'offerId' => $offerId,

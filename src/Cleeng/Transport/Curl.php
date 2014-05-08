@@ -12,7 +12,7 @@
 /**
  * Helper class for performing HTTP requests to Cleeng API endpoint
  */
-class Cleeng_Transport_Curl extends Cleeng_Transport_AbstractTransport
+class Cleeng_Transport_Curl implements Cleeng_Transport_TransportInterface
 {
 
     /**

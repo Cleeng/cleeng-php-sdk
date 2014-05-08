@@ -31,6 +31,7 @@ foreach (array(
             'Entity/ListSubscriptionCouponCampaign.php',
             'Entity/CustomerRental.php',
             'Entity/CustomerEmail.php',
+            'Entity/CustomerLibrary.php',
             'Entity/RentalOffer.php',
             'Entity/Publisher.php',
             'Entity/CustomerSubscription.php',
@@ -44,9 +45,8 @@ foreach (array(
             'Exception/HttpErrorException.php',
             'Exception/ApiErrorException.php',
             'Exception/InvalidJsonException.php',
-            'Transport/AbstractTransport.php',
+            'Transport/TransportInterface.php',
             'Transport/Curl.php',
-
                 ) as $_cleeng_class_file) {
 
     require_once dirname(__FILE__) . '/src/Cleeng/' . $_cleeng_class_file;

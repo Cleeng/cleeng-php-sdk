@@ -148,17 +148,8 @@ class Cleeng_Api
         return $objectToPopulate;
     }
 
-    /**
-     * Process pending API requests in a batch call
-     */
-    public function commit()
+    private function processRequestData($requestData)
     {
-        $requestData = array();
-        foreach ($this->pendingCalls as $req) {
-            $payload = $req['payload'];
-            $requestData[] = $payload;
-        }
-
         $encodedRequest = '[' . implode(',', $requestData) . ']';
         $this->rawRequest = $encodedRequest;
         $raw = $this->getTransport()->call($this->getEndpoint(), $encodedRequest);
@@ -193,13 +184,32 @@ class Cleeng_Api
                     if (!is_array($response['result'])) {
                         throw new Cleeng_Exception_ApiErrorException(
                             "Invalid response type received from API. Expected array, got "
-                                . getType($response['result']) . '.'
+                            . getType($response['result']) . '.'
                         );
                     }
                     $transferObject->populate($response['result']);
                 }
             }
         }
+    }
+
+    /**
+     * Process pending API requests in a batch call
+     */
+    public function commit()
+    {
+        $requestData = array();
+        foreach ($this->pendingCalls as $req) {
+            $payload = $req['payload'];
+            $requestData[] = $payload;
+
+            if (count($requestData) >= 25) {
+                $this->processRequestData($requestData);
+                $requestData = array();
+            }
+        }
+        $this->processRequestData($requestData);
+
         $this->pendingCalls = array();
     }
 

@@ -150,6 +150,9 @@ class Cleeng_Api
 
     private function processRequestData($requestData)
     {
+        if (!count($requestData)) {
+            return;
+        }
         $encodedRequest = '[' . implode(',', $requestData) . ']';
         $this->rawRequest = $encodedRequest;
         $raw = $this->getTransport()->call($this->getEndpoint(), $encodedRequest);

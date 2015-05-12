@@ -1,5 +1,5 @@
-3.2-dev
-=======
+3.2 (2015-05-12)
+================
 
 * automatically load Customer Token from the URL if not available in a cookie
 * coupon campaign methods added

@@ -37,7 +37,7 @@ class Cleeng_Api
     /**
      * Cleeng Javascript library URL
      */
-    protected $jsApiUrl = 'http://cdn.cleeng.com/js-api/3.0/api.js';
+    protected $jsApiUrl = 'http://cdn-static.cleeng.com/js-api/3.0/api.js';
 
     /**
      * Transport class used to communicate with Cleeng servers

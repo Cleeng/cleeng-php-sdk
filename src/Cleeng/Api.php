@@ -429,8 +429,6 @@ class Cleeng_Api
         );
     }
 
-
-
     /**
      * Customer API: trackOfferImpression
      *
@@ -776,6 +774,113 @@ class Cleeng_Api
                 'localizedData' => $localizedData,
             ),
             new Cleeng_Entity_MultiCurrencyOffer()
+        );
+    }
+
+    /**
+     * Event Offer API: getEventOffer
+     *
+     * @param string $offerId
+     * @return Cleeng_Entity_EventOffer
+     */
+    public function getEventOffer($offerId)
+    {
+        $offer = new Cleeng_Entity_EventOffer();
+        return $this->api('getEventOffer', array('offerId' => $offerId), $offer);
+    }
+
+    /**
+     * Event Offer API: listEventOffers
+     *
+     * @param array $criteria
+     * @param int $offset
+     * @param int $limit
+     *
+     * @return Cleeng_Entity_Collection
+     */
+    public function listEventOffers($criteria = array(), $offset = 0, $limit = 20)
+    {
+        $collection = new Cleeng_Entity_Collection('Cleeng_Entity_EventOffer');
+        return $this->api(
+            'listEventOffers',
+            array(
+                'publisherToken' => $this->getPublisherToken(),
+                'criteria' => $criteria,
+                'offset' => $offset,
+                'limit' => $limit,
+            ),
+            $collection
+        );
+    }
+
+    /**
+     * Event Offer API: createEventOffer
+     *
+     * @param array $offerData
+     * @return Cleeng_Entity_EventOffer
+     * @throws Cleeng_Exception_RuntimeException
+     */
+    public function createEventOffer($offerData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'createEventOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerData' => $offerData
+            ),
+            new Cleeng_Entity_EventOffer()
+        );
+    }
+
+    /**
+     * Event Offer API: updateEventOffer
+     *
+     * @param string $offerId
+     * @param array $offerData
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_EventOffer
+     */
+    public function updateEventOffer($offerId, $offerData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'updateEventOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerId' => $offerId,
+                'offerData' => $offerData,
+            ),
+            new Cleeng_Entity_EventOffer()
+        );
+    }
+
+    /**
+     * Event Offer API: cancelEventOffer
+     *
+     * @param string $offerId
+     * @throws Cleeng_Exception_RuntimeException
+     * @return Cleeng_Entity_EventOffer
+     */
+    public function cancelEventOffer($offerId)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+        return $this->api(
+            'cancelEventOffer',
+            array(
+                'publisherToken' => $publisherToken,
+                'offerId' => $offerId,
+            ),
+            new Cleeng_Entity_EventOffer()
         );
     }
 

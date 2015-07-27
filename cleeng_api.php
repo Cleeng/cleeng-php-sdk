@@ -22,6 +22,7 @@ foreach (array(
             'Entity/BundleOffer.php',
             'Entity/SingleOffer.php',
             'Entity/EventOffer.php',
+            'Entity/VodOffer.php',
             'Entity/RemoteAuth.php',
             'Entity/CustomerToken.php',
             'Entity/Associate.php',

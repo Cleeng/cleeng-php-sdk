@@ -42,6 +42,20 @@ class Cleeng_Entity_Base
     }
 
     /**
+     * Convert collection into array
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $data = array();
+        foreach ($this as $k => $v) {
+            $data[$k] = $v;
+        }
+        return $data;
+    }
+    
+    /**
      * Class constructor
      *
      */

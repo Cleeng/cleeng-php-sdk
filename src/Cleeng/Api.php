@@ -25,7 +25,7 @@ class Cleeng_Api
     /**
      * Cleeng Javascript library for Cleeng Sandbox
      */
-    const SANDBOX_JSAPI_URL  = 'http://sandbox.cleeng.com/js-api/3.0/api.js';
+    const SANDBOX_JSAPI_URL  = 'https://sandbox.cleeng.com/js-api/3.0/api.js';
 
     /**
      * API endpoint - by default points to live platform
@@ -37,7 +37,7 @@ class Cleeng_Api
     /**
      * Cleeng Javascript library URL
      */
-    protected $jsApiUrl = 'http://cdn-static.cleeng.com/js-api/3.0/api.js';
+    protected $jsApiUrl = 'https://cdn-static.cleeng.com/js-api/3.0/api.js';
 
     /**
      * Transport class used to communicate with Cleeng servers

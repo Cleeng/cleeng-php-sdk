@@ -1,6 +1,18 @@
-3.3 (2016-04-27)
+3.4 (2016-04-27)
 ================
 * remove deprecated method: trackOfferImpression
+
+3.3.0 (2015-07-29)
+==================
+* add `toArray()` method on entity
+
+3.2.2 (2015-07-28)
+==================
+* Add VOD offer entity
+
+3.2.1 (2015-07-27)
+==================
+* Add event offer entity
 
 3.2 (2015-05-12)
 ================

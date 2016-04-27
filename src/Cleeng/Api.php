@@ -430,23 +430,6 @@ class Cleeng_Api
     }
 
     /**
-     * Customer API: trackOfferImpression
-     *
-     * @param $offerId
-     * @param string $ipAddress
-     * @return Cleeng_Entity_OperationStatus
-     */
-    public function trackOfferImpression($offerId, $ipAddress = '')
-    {
-        $status = new Cleeng_Entity_OperationStatus();
-        if ($token = $this->getCustomerToken()) {
-            return $this->api('trackOfferImpression', array('offerId' => $offerId, 'customerToken' => $token, 'ipAddress' => $ipAddress), $status);
-        } else {
-            return $this->api('trackOfferImpression', array('offerId' => $offerId, 'ipAddress' => $ipAddress), $status);
-        }
-    }
-
-    /**
      * Customer API: getAccessStatus
      *
      * @param $offerId

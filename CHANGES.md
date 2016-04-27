@@ -1,3 +1,7 @@
+3.3 (2016-04-27)
+================
+* remove deprecated method: trackOfferImpression
+
 3.2 (2015-05-12)
 ================
 

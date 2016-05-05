@@ -16,8 +16,9 @@
  */
 class Cleeng_Entity_Customer extends Cleeng_Entity_Base
 {
-
     protected $id;
+
+    protected $email;
 
     protected $displayName;
 
@@ -30,5 +31,4 @@ class Cleeng_Entity_Customer extends Cleeng_Entity_Base
     protected $locale;
 
     protected $country;
-
 }

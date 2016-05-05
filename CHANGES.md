@@ -1,3 +1,7 @@
+3.4.1 (2016-05-05)
+==================
+* add "email" field to customer entity
+
 3.4 (2016-04-27)
 ================
 * remove deprecated method: trackOfferImpression

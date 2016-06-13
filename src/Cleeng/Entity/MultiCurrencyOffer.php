@@ -13,7 +13,7 @@
  * Placeholder for multi currency offer ID (looks like normal offer id without country
  * suffix: A123123123, S432432432, etc.)
  *
- * @link http://cleeng.com/open/v3/Reference
+ * @link http://developers.cleeng.com/v3/Reference
  */
 class Cleeng_Entity_MultiCurrencyOffer extends Cleeng_Entity_Base
 {

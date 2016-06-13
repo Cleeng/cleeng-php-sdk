@@ -10,7 +10,7 @@
  */
 
 /**
- * @link http://cleeng.com/open/v3/Reference/Event_Offer_API
+ * @link http://developers.cleeng.com/v3/Reference/Event_Offer_API
  */
 class Cleeng_Entity_EventOffer extends Cleeng_Entity_Base
 {
@@ -36,6 +36,12 @@ class Cleeng_Entity_EventOffer extends Cleeng_Entity_Base
 
     protected $timeZone;
 
+    protected $associateEmail;
+
+    protected $viewerEstimate;
+
+    protected $teaser;
+
     protected $applyServiceFeeOnCustomer;
 
     protected $active;
@@ -45,4 +51,10 @@ class Cleeng_Entity_EventOffer extends Cleeng_Entity_Base
     protected $updatedAt;
 
     protected $tags;
+
+    protected $geoRestrictionEnabled;
+
+    protected $geoRestrictionType;
+
+    protected $geoRestrictionCountries;
 }

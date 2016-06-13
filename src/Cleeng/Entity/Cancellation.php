@@ -12,7 +12,7 @@
 /**
  * Provides information about customer.
  *
- * @link http://cleeng.com/open/v3/Reference/Reporting_API
+ * @link http://developers.cleeng.com/v3/Reference/Reporting_API
  */
 class Cleeng_Entity_Transaction extends Cleeng_Entity_Base
 {

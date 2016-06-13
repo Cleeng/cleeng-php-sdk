@@ -1,3 +1,7 @@
+3.4.2 (2016-06-12)
+==================
+* extend EventOffer Api
+
 3.4.1 (2016-05-05)
 ==================
 * add "email" field to customer entity

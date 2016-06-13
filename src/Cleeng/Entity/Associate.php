@@ -10,7 +10,7 @@
  */
 
 /**
- * @link http://cleeng.com/open/v3/Reference/Associates_API
+ * @link http://developers.cleeng.com/v3/Reference/Associates_API
  */
 class Cleeng_Entity_Associate extends Cleeng_Entity_Base
 {

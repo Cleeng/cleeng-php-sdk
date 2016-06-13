@@ -10,7 +10,7 @@
  */
 
 /**
- * @link http://cleeng.com/open/v3/Reference/SeasonPass_API
+ * @link http://developers.cleeng.com/v3/Reference/SeasonPass_API
  */
 class Cleeng_Entity_PassOffer extends Cleeng_Entity_Base
 {
@@ -42,4 +42,10 @@ class Cleeng_Entity_PassOffer extends Cleeng_Entity_Base
     protected $createdAt;
 
     protected $updatedAt;
+
+    protected $geoRestrictionEnabled;
+
+    protected $geoRestrictionType;
+
+    protected $geoRestrictionCountries;
 }

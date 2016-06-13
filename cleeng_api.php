@@ -19,7 +19,6 @@ foreach (array(
             'Api.php',
             'Entity/Base.php',
             'Entity/Customer.php',
-            'Entity/BundleOffer.php',
             'Entity/SingleOffer.php',
             'Entity/EventOffer.php',
             'Entity/VodOffer.php',

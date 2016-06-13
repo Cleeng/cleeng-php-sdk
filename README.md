@@ -1,7 +1,7 @@
 Cleeng PHP SDK
 ==============
 
-PHP wrapper around [Cleeng API](http://cleeng.com/open) (version 3.0).
+PHP wrapper around [Cleeng API](http://developers.cleeng.com) (version 3.0).
 
 Installation
 ------------
@@ -21,4 +21,4 @@ If composer is not available, you can download this package, put in in your sour
 Usage
 -----
 
-For usage instructions please refer to [Documentation page](http://cleeng.com/open/PHP_SDK).
+For usage instructions please refer to [Documentation page](http://developers.cleeng.com/PHP_SDK).

@@ -23,6 +23,13 @@ class Cleeng_ApiTest extends PHPUnit_Framework_TestCase
         $this->api = new Cleeng_Api();
     }
 
+    public function testSandboxCanBeEnabledWithConstructor()
+    {
+        $api = new Cleeng_Api(['enableSandbox' => true]);
+        $this->assertEquals(Cleeng_Api::SANDBOX_ENDPOINT, $api->getEndpoint());
+        $this->assertEquals(Cleeng_Api::SANDBOX_JSAPI_URL, $api->getJsApiUrl());
+    }
+
     public function testCustomerTokenIsMutable()
     {
         $this->api->setCustomerToken('XXXXXXXXXXXXXXXXXXXX');

@@ -1,3 +1,7 @@
+3.5.0 (2016-06-15)
+==================
+* allow enabling sandbox mode using `Cleeng_Api` constructor 
+
 3.4.2 (2016-06-12)
 ==================
 * extend EventOffer Api

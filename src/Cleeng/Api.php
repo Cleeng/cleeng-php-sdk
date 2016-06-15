@@ -301,6 +301,10 @@ class Cleeng_Api
      */
     public function __construct($options = array())
     {
+        if (array_key_exists('enableSandbox', $options) && $options['enableSandbox'] == true) {
+            $this->enableSandbox();
+        }
+
         foreach ($options as $name => $value) {
             $methodName = 'set' . ucfirst($name);
             if (method_exists($this, $methodName)) {

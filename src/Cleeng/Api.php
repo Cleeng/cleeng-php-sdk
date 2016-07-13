@@ -42,7 +42,7 @@ class Cleeng_Api
     /**
      * Transport class used to communicate with Cleeng servers
      *
-     * @var Cleeng_Transport_AbstractTransport
+     * @var Cleeng_Transport_TransportInterface
      */
     protected $transport;
 
@@ -180,18 +180,17 @@ class Cleeng_Api
                 $transferObject = $this->pendingCalls[$response['id']]['entity'];
                 $transferObject->pending = false;
 
-                if ($response['error']) {
+                if (isset($response['error']) && $response['error']) {
                     $this->pendingCalls = array();
                     throw new Cleeng_Exception_ApiErrorException($response['error']['message']);
-                } else {
-                    if (!is_array($response['result'])) {
-                        throw new Cleeng_Exception_ApiErrorException(
-                            "Invalid response type received from API. Expected array, got "
-                            . getType($response['result']) . '.'
-                        );
-                    }
-                    $transferObject->populate($response['result']);
                 }
+                if (!isset($response['result']) || !is_array($response['result'])) {
+                    throw new Cleeng_Exception_ApiErrorException(
+                        "Invalid response type received from API. Expected array, got "
+                        . getType($response['result']) . '.'
+                    );
+                }
+                $transferObject->populate($response['result']);
             }
         }
     }
@@ -255,10 +254,10 @@ class Cleeng_Api
     }
 
     /**
-     * @param \Cleeng_Transport_AbstractTransport $transport
+     * @param \Cleeng_Transport_TransportInterface $transport
      * @return self
      */
-    public function setTransport($transport)
+    public function setTransport(Cleeng_Transport_TransportInterface $transport)
     {
         $this->transport = $transport;
         return $this;
@@ -268,7 +267,7 @@ class Cleeng_Api
     /**
      * Return transport object or create new (curl-based)
      *
-     * @return Cleeng_Transport_AbstractTransport
+     * @return Cleeng_Transport_TransportInterface
      */
     public function getTransport()
     {

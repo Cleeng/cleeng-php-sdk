@@ -1,3 +1,7 @@
+3.5.1 (2016-07-13)
+==================
+* don't trigger notice when handling json-rpc 2.0 responses in correct format 
+
 3.5.0 (2016-06-15)
 ==================
 * allow enabling sandbox mode using `Cleeng_Api` constructor 

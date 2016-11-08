@@ -182,7 +182,7 @@ class Cleeng_Api
 
                 if (isset($response['error']) && $response['error']) {
                     $this->pendingCalls = array();
-                    throw new Cleeng_Exception_ApiErrorException($response['error']['message']);
+                    throw new Cleeng_Exception_ApiErrorException($response['error']['message'], $response['error']['code']);
                 }
                 if (!isset($response['result']) || !is_array($response['result'])) {
                     throw new Cleeng_Exception_ApiErrorException(

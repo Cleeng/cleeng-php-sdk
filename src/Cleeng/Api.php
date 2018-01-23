@@ -415,6 +415,22 @@ class Cleeng_Api
     }
 
     /**
+     * Customer API: requestPasswordReset
+     *
+     * @throws Cleeng_Exception_RuntimeException
+     */
+    public function requestPasswordReset($customerEmail, $resetUrl = '')
+    {
+        if ($this->getPublisherToken()) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+
+        $this->api(
+            'requestPasswordReset',
+            array($this->getPublisherToken(), $customerEmail, $resetUrl)
+    }
+
+    /**
      * Customer API: getCustomerEmail
      *
      * @return Cleeng_Entity_CustomerEmail

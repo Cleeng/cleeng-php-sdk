@@ -446,7 +446,8 @@ class Cleeng_Api
             throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
         }
 
-        $this->api(
+        $customerToken = new Cleeng_Entity_CustomerToken();
+        return $this->api(
             'registerCustomer',
             array(
                 'publisherToken' => $this->getPublisherToken(),
@@ -458,7 +459,8 @@ class Cleeng_Api
                     'password' => $password,
                     'facebookId' => $facebookId,
                 )
-            )
+            ),
+            $customerToken
         );
     }
 
@@ -473,13 +475,15 @@ class Cleeng_Api
             throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
         }
 
-        $this->api(
+        $customerToken = new Cleeng_Entity_CustomerToken();
+        return $this->api(
             'generateCustomerTokenFromPassword',
             array(
                 'publisherToken' => $this->getPublisherToken(),
                 'customerEmail' => $email,
                 'password' => $password,
-            )
+            ),
+            $customerToken
         );
     }
 

@@ -419,7 +419,7 @@ class Cleeng_Api
      *
      * @throws Cleeng_Exception_RuntimeException
      */
-    public function requestPasswordReset($customerEmail, $resetUrl = '')
+    public function requestPasswordReset($email, $resetUrl = '')
     {
         if ($this->getPublisherToken()) {
             throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
@@ -427,7 +427,60 @@ class Cleeng_Api
 
         $this->api(
             'requestPasswordReset',
-            array($this->getPublisherToken(), $customerEmail, $resetUrl)
+            array(
+                'publisherToken' => $this->getPublisherToken(),
+                'customerEmail' => $email,
+                'resetUrl' => $resetUrl
+            )
+        );
+    }
+
+    /**
+     * Customer API: registerCustomer
+     *
+     * @throws Cleeng_Exception_RuntimeException
+     */
+    public function registerCustomer($email, $locale, $country, $currency, $password, $facebookId)
+    {
+        if ($this->getPublisherToken()) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+
+        $this->api(
+            'registerCustomer',
+            array(
+                'publisherToken' => $this->getPublisherToken(),
+                'customerData' => array(
+                    'email' => $email,
+                    'locale' => $locale,
+                    'country' => $country,
+                    'currency' => $currency,
+                    'password' => $password,
+                    'facebookId' => $facebookId,
+                )
+            )
+        );
+    }
+
+    /**
+     * Customer API: generateCustomerTokenFromPassword
+     *
+     * @throws Cleeng_Exception_RuntimeException
+     */
+    public function generateCustomerTokenFromPassword($email, $password)
+    {
+        if ($this->getPublisherToken()) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+
+        $this->api(
+            'generateCustomerTokenFromPassword',
+            array(
+                'publisherToken' => $this->getPublisherToken(),
+                'customerEmail' => $email,
+                'password' => $password,
+            )
+        );
     }
 
     /**

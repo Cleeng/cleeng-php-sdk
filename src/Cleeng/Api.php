@@ -440,7 +440,7 @@ class Cleeng_Api
      *
      * @throws Cleeng_Exception_RuntimeException
      */
-    public function registerCustomer($email, $locale, $country, $currency, $password, $facebookId)
+    public function registerCustomer($email, $locale, $country, $currency, $password = "", $facebookId = "")
     {
         if ($this->getPublisherToken()) {
             throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");

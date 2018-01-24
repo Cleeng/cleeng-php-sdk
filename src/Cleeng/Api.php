@@ -421,7 +421,7 @@ class Cleeng_Api
      */
     public function requestPasswordReset($email, $resetUrl = '')
     {
-        if ($this->getPublisherToken()) {
+        if (!$this->getPublisherToken()) {
             throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
         }
 
@@ -442,7 +442,7 @@ class Cleeng_Api
      */
     public function registerCustomer($email, $locale, $country, $currency, $password = "", $facebookId = "")
     {
-        if ($this->getPublisherToken()) {
+        if (!$this->getPublisherToken()) {
             throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
         }
 
@@ -471,7 +471,7 @@ class Cleeng_Api
      */
     public function generateCustomerTokenFromPassword($email, $password)
     {
-        if ($this->getPublisherToken()) {
+        if (!$this->getPublisherToken()) {
             throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
         }
 

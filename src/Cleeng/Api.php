@@ -488,6 +488,29 @@ class Cleeng_Api
     }
 
     /**
+     * Customer API: getPrice
+     *
+     * @throws Cleeng_Exception_RuntimeException
+     */
+    public function getPrice($offerId, $ipAddress)
+    {
+        if (!$this->getPublisherToken()) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+
+        $price = new Cleeng_Entity_Base();
+        return $this->api(
+            'getPrice',
+            array(
+                'publisherToken' => $this->getPublisherToken(),
+                'offerId' => $offerId,
+                'ipAddress' => $ipAddress,
+            ),
+            $price
+        );
+    }
+
+    /**
      * Customer API: getCustomerEmail
      *
      * @return Cleeng_Entity_CustomerEmail

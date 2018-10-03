@@ -14,7 +14,7 @@
  *
  * @link http://developers.cleeng.com/v3/Reference/Reporting_API
  */
-class Cleeng_Entity_Transaction extends Cleeng_Entity_Base
+class Cleeng_Entity_Cancellation extends Cleeng_Entity_Base
 {
 
     protected $criteria;

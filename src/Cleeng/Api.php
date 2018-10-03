@@ -1442,6 +1442,35 @@ class Cleeng_Api
         );
     }
 
+    /* List Cancellations API: listCancellations
+    *
+    * @param array $criteria
+    * @param int $offset
+    * @param int $limit
+    *
+    * @return Cleeng_Entity_Base
+    */
+
+    public function listCancellations($criteria = array(), $offset = 0, $limit = 20)
+    {
+        $collection = new Cleeng_Entity_Collection('Cleeng_Entity_Base');
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+
+        return $this->api(
+            'listCancellations',
+            array(
+                'publisherToken' => $publisherToken,
+                'criteria' => $criteria,
+                'offset' => $offset,
+                'limit' => $limit,
+            ),
+            $collection
+        );
+    }
+
     /**
      * @param array $criteria
      * @param int $offset

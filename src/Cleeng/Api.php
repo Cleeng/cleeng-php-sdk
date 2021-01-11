@@ -1749,5 +1749,26 @@ class Cleeng_Api
         );
     }
 
+    /**
+     * Authorization & payments API:registerCustomer
+     * @param array $customerData
+     * @return Cleeng_Entity_CustomerToken
+     * @throws Cleeng_Exception_RuntimeException
+     */
+    public function registerCustomer($customerData)
+    {
+        $publisherToken = $this->getPublisherToken();
+        if (!$publisherToken) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
 
+        return $this->api(
+            'registerCustomer',
+            array(
+                'publisherToken' => $publisherToken,
+                'customerData' => $customerData,
+            ),
+            new Cleeng_Entity_CustomerToken()
+        );
+    }
 }

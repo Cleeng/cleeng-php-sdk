@@ -81,6 +81,19 @@ class Cleeng_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('BE', $entity->country);
     }
 
+    public function testRequestPasswordReset()
+    {
+        $transport = $this->getMock('Cleeng_Transport_AbstractTransport', array('call'));
+        $transport->expects($this->once())->method('call')
+            ->will($this->returnValue('[{"result": {"success": true}, "id": "1", "error": null, "jsonrpc": "2.0"}]'));
+
+        $api = new Cleeng_Api();
+        $api->setTransport($transport);
+	$response = $api->requestPasswordReset('johndoe@domain.com', 'http://www.domain.com');
+
+	$this->assertEquals(null, $response);
+    }
+
     public function testPrepareRemoteAuth()
     {
         $transport = $this->getMock('Cleeng_Transport_AbstractTransport', array('call'));
@@ -324,7 +337,7 @@ class Cleeng_ApiTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('en_US', $entity->locale);
         $this->assertEquals('US', $entity->country);
     }
-    
+
     public function testListTransactions()
     {
         $transport = $this->getMock('Cleeng_Transport_AbstractTransport', array('call'));

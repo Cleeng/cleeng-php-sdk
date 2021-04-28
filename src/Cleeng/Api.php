@@ -415,6 +415,102 @@ class Cleeng_Api
     }
 
     /**
+     * Customer API: requestPasswordReset
+     *
+     * @throws Cleeng_Exception_RuntimeException
+     */
+    public function requestPasswordReset($email, $resetUrl = '')
+    {
+        if (!$this->getPublisherToken()) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+
+        $this->api(
+            'requestPasswordReset',
+            array(
+                'publisherToken' => $this->getPublisherToken(),
+                'customerEmail' => $email,
+                'resetUrl' => $resetUrl
+            )
+        );
+    }
+
+    /**
+     * Customer API: registerCustomer
+     *
+     * @throws Cleeng_Exception_RuntimeException
+     */
+    public function registerCustomer($email, $locale, $country, $currency, $password = "", $facebookId = "")
+    {
+        if (!$this->getPublisherToken()) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+
+        $customerToken = new Cleeng_Entity_CustomerToken();
+        return $this->api(
+            'registerCustomer',
+            array(
+                'publisherToken' => $this->getPublisherToken(),
+                'customerData' => array(
+                    'email' => $email,
+                    'locale' => $locale,
+                    'country' => $country,
+                    'currency' => $currency,
+                    'password' => $password,
+                    'facebookId' => $facebookId,
+                )
+            ),
+            $customerToken
+        );
+    }
+
+    /**
+     * Customer API: generateCustomerTokenFromPassword
+     *
+     * @throws Cleeng_Exception_RuntimeException
+     */
+    public function generateCustomerTokenFromPassword($email, $password)
+    {
+        if (!$this->getPublisherToken()) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+
+        $customerToken = new Cleeng_Entity_CustomerToken();
+        return $this->api(
+            'generateCustomerTokenFromPassword',
+            array(
+                'publisherToken' => $this->getPublisherToken(),
+                'customerEmail' => $email,
+                'password' => $password,
+            ),
+            $customerToken
+        );
+    }
+
+    /**
+     * Customer API: getPrice
+     *
+     * @throws Cleeng_Exception_RuntimeException
+     */
+    public function getPrice($offerId, $ipAddress)
+    {
+        if (!$this->getPublisherToken()) {
+            throw new Cleeng_Exception_RuntimeException("Cannot call " . __FUNCTION__ . ": setPublisherToken must be used first.");
+        }
+
+        $price = new Cleeng_Entity_Base();
+        return $this->api(
+            'getPrice',
+            array(
+                'publisherToken' => $this->getPublisherToken(),
+                'offerId' => $offerId,
+                'ipAddress' => $ipAddress,
+            ),
+            $price
+        );
+    }
+
+    /**
      * Customer API: getCustomerEmail
      *
      * @return Cleeng_Entity_CustomerEmail
